@@ -21,7 +21,7 @@
 ## Installation
 
 ``` shell
-npm install --save http-ts
+npm install http-ts
 ```
 
 ## Usage
