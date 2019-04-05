@@ -1,5 +1,5 @@
 {
-  "name": "http-ts",
+  "name": "@alkocats/http-ts",
   "version": "0.0.1",
   "description": "A Typescript HTTP server wrapper with express.",
   "main": "build/index.js",
@@ -46,6 +46,10 @@
     "cover": "nyc  -r lcov -e .ts -x \"*.spec.ts\" mocha --require ts-node/register spec/**/*.spec.ts"
   },
   "keywords": [
+    "alkocats",
+    "node",
+    "typescript",
+    "express",
     "http"
   ],
   "author": "Benjamin Ricchiuto",
