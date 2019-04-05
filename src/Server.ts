@@ -31,46 +31,13 @@ export abstract class Server<T> {
         return this.server;
     }
 
+    public getExpress(): express.Express {
+        return this.express;
+    }
+
     public registerController(controller: Controller<any>): Server<T> {
         this.controllers.push(controller);
         controller.registerActions(this);
-        return this;
-    }
-
-    public get(path: string, ...handlers: express.RequestHandler[]): Server<T> {
-        return this.callMethod(this.express.get, path, handlers);
-    }
-
-    public head(path: string, ...handlers: express.RequestHandler[]): Server<T> {
-        return this.callMethod(this.express.head, path, handlers);
-    }
-
-    public post(path: string, ...handlers: express.RequestHandler[]): Server<T> {
-        return this.callMethod(this.express.post, path, handlers);
-    }
-
-    public put(path: string, ...handlers: express.RequestHandler[]): Server<T> {
-        return this.callMethod(this.express.put, path, handlers);
-    }
-
-    public delete(path: string, ...handlers: express.RequestHandler[]): Server<T> {
-        return this.callMethod(this.express.delete, path, handlers);
-    }
-
-    public connect(path: string, ...handlers: express.RequestHandler[]): Server<T> {
-        return this.callMethod(this.express.connect, path, handlers);
-    }
-
-    public options(path: string, ...handlers: express.RequestHandler[]): Server<T> {
-        return this.callMethod(this.express.options, path, handlers);
-    }
-
-    public trace(path: string, ...handlers: express.RequestHandler[]): Server<T> {
-        return this.callMethod(this.express.trace, path, handlers);
-    }
-
-    protected callMethod(method: express.IRouterMatcher<express.Express>, path: string, handlers: express.RequestHandler[]): Server<T> {
-        method(path, handlers);
         return this;
     }
 }

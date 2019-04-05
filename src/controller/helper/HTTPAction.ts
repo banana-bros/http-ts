@@ -15,7 +15,7 @@ export abstract class HTTPAction {
         if (!server[serverMethodName]) {
             throw new Error(`Server Method ${serverMethodName} not found`);
         }
-        return server[serverMethodName].bind(server);
+        return server.getExpress()[serverMethodName].bind(server);
     }
 
     protected abstract getServerMethodName(): string;
