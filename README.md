@@ -13,7 +13,7 @@
 - [Usage](#usage)
   - [Example](#example)
 - [API](#api)
-  - [Supported HTML methods](#supported-html-methods)
+  - [Supported HTTP methods](#supported-http-methods)
 - [Contributing](#contributing)
 - [Credits](#credits)
 - [License](#license)
@@ -32,7 +32,7 @@ All relevant imports for a minimal setup:
 
 ``` typescript
 import { Request, Response } from 'express';
-import { DataContainer, Controller, HTTPGet, HTTPServer } from './data_container';
+import { DataContainer, Controller, HTTPGet, HTTPServer } from '@alkocats/http-ts';
 ```
 
 The user interface for the data container:
