@@ -1,22 +1,14 @@
 import * as WebSocket from 'ws';
 import { IncomingMessage } from 'http';
 import { Subject } from 'rxjs';
-import { Server } from '../Server';
 import { HTTPSServer } from '../HTTPSServer';
+import { SecureServer } from '../SecureServer';
 
-export class SecureWebSocketServer extends Server<WebSocket.Server> {
+export class SecureWebSocketServer extends SecureServer<WebSocket.Server> {
     public onListening: Subject<null> = new Subject();
 
-    private certificate: string | Buffer | (string | Buffer)[];
-    private key: string | Buffer | (string | Buffer)[];
     private httpsServer: HTTPSServer;
     private wssServer: WebSocket.Server;
-
-    constructor(port: number, certificate: string | Buffer | (string | Buffer)[], key: string | Buffer | (string | Buffer)[]) {
-        super(port);
-        this.certificate = certificate;
-        this.key = key;
-    }
 
     protected createServer(): void {
         this.httpsServer = new HTTPSServer(this.port, this.certificate, this.key);

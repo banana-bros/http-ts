@@ -1,16 +1,9 @@
 import * as https from 'https';
 import { Server } from './Server';
+import { SecureServer } from './SecureServer';
 
-export class HTTPSServer extends Server<https.Server> {
-    protected certificate: string | Buffer | (string | Buffer)[];
-    protected key: string | Buffer | (string | Buffer)[];
+export class HTTPSServer extends SecureServer<https.Server> {
     protected httpsServer: https.Server;
-
-    constructor(port: number, certificate: string | Buffer | (string | Buffer)[], key: string | Buffer | (string | Buffer)[]) {
-        super(port);
-        this.certificate = certificate;
-        this.key = key;
-    }
 
     protected createServer(): void {
         this.server = https.createServer({

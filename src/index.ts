@@ -1,4 +1,5 @@
 export * from './Server';
+export * from './SecureServer';
 export * from './HTTPServer';
 export * from './HTTPSServer';
 export * from './websocket/index';
