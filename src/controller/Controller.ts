@@ -1,8 +1,6 @@
-import { HTTPSServer } from '../HTTPSServer';
 import { HTTPAction } from './helper/HTTPAction';
-import { Response, Request } from 'express-serve-static-core';
-import { HTTPServer } from '../HTTPServer';
 import { Server } from '../Server';
+import { Request, Response } from 'express';
 
 export abstract class Controller<T> {
     public actions: HTTPAction[];

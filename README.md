@@ -1,9 +1,9 @@
 # http-ts
 
 [![Build Status](https://travis-ci.org/Rothen/http-ts.svg?branch=master)](https://travis-ci.org/Rothen/http-ts)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/3b112a2ee0b340b63215/test_coverage)](https://codeclimate.com/github/Rothen/http-ts/test_coverage)
-[![Maintainability](https://api.codeclimate.com/v1/badges/3b112a2ee0b340b63215/maintainability)](https://codeclimate.com/github/Rothen/http-ts/maintainability)
-[![npm version](https://badge.fury.io/js/%40alkocats%2Fex-math.svg)](https://badge.fury.io/js/%40alkocats%2Fex-math)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/fb418ee88ca7df4c0a63/test_coverage)](https://codeclimate.com/github/Rothen/http-ts/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/fb418ee88ca7df4c0a63/maintainability)](https://codeclimate.com/github/Rothen/http-ts/maintainability)
+[![npm version](https://badge.fury.io/js/%40alkocats%2Fhttp-ts.svg)](https://badge.fury.io/js/%40alkocats%2Fhttp-ts)
 [![MIT License](https://img.shields.io/github/license/Rothen/http-ts.svg)](https://github.com/Rothen/http-ts/blob/master/LICENSE)
 [![Known Vulnerabilities](https://snyk.io/test/github/Rothen/http-ts/badge.svg)](https://snyk.io/test/github/Rothen/http-ts)
 [![dependencies Status](https://david-dm.org/Rothen/http-ts/status.svg)](https://david-dm.org/Rothen/http-ts)
@@ -32,7 +32,7 @@ All relevant imports for a minimal setup:
 
 ``` typescript
 import { HTTPSServer, Controller, DataContainer, HTTPGet } from 'http-ts';
-import { Request, Response } from 'express-serve-static-core';
+import { Request, Response } from 'express';
 ```
 
 The user interface for the data container:

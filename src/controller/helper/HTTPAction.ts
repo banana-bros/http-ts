@@ -1,7 +1,5 @@
-import { RequestHandler } from 'express-serve-static-core';
-import { HTTPSServer } from '../../HTTPSServer';
-import { HTTPServer } from '../../HTTPServer';
 import { Server } from '../../Server';
+import { RequestHandler } from 'express';
 
 export abstract class HTTPAction {
     public path: string;

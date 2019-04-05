@@ -1,7 +1,6 @@
 import { Subject } from 'rxjs';
 import * as express from 'express';
 import { Controller } from './controller/Controller';
-import { RequestHandler } from 'express-serve-static-core';
 import bodyParser = require('body-parser');
 
 export abstract class Server<T> {
@@ -38,42 +37,42 @@ export abstract class Server<T> {
         return this;
     }
 
-    public get(path: string, ...handlers: RequestHandler[]): Server<T> {
+    public get(path: string, ...handlers: express.RequestHandler[]): Server<T> {
         this.express.get(path, handlers);
         return this;
     }
 
-    public head(path: string, ...handlers: RequestHandler[]): Server<T> {
+    public head(path: string, ...handlers: express.RequestHandler[]): Server<T> {
         this.express.head(path, handlers);
         return this;
     }
 
-    public post(path: string, ...handlers: RequestHandler[]): Server<T> {
+    public post(path: string, ...handlers: express.RequestHandler[]): Server<T> {
         this.express.post(path, handlers);
         return this;
     }
 
-    public put(path: string, ...handlers: RequestHandler[]): Server<T> {
+    public put(path: string, ...handlers: express.RequestHandler[]): Server<T> {
         this.express.put(path, handlers);
         return this;
     }
 
-    public delete(path: string, ...handlers: RequestHandler[]): Server<T> {
+    public delete(path: string, ...handlers: express.RequestHandler[]): Server<T> {
         this.express.delete(path, handlers);
         return this;
     }
 
-    public connect(path: string, ...handlers: RequestHandler[]): Server<T> {
+    public connect(path: string, ...handlers: express.RequestHandler[]): Server<T> {
         this.express.connect(path, handlers);
         return this;
     }
 
-    public options(path: string, ...handlers: RequestHandler[]): Server<T> {
+    public options(path: string, ...handlers: express.RequestHandler[]): Server<T> {
         this.express.options(path, handlers);
         return this;
     }
 
-    public trace(path: string, ...handlers: RequestHandler[]): Server<T> {
+    public trace(path: string, ...handlers: express.RequestHandler[]): Server<T> {
         this.express.trace(path, handlers);
         return this;
     }
