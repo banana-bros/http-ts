@@ -84,22 +84,21 @@ httpServer.start();
 
 ### Supported HTML methods
 
-`@HTTPGet(path: string)` :
+`@HTTPGet(path: string)`:
 
-`@HTTPPut(path: string)` :
+`@HTTPPut(path: string)`:
 
-`@HTTPPost(path: string)` :
+`@HTTPPost(path: string)`:
 
-`@HTTPDelete(path: string)` :
+`@HTTPDelete(path: string)`:
 
-`@HTTPHead(path: string)` :
+`@HTTPHead(path: string)`:
 
-`@HTTPOptions(path: string)` :
+`@HTTPOptions(path: string)`:
 
-`@HTTPTrace(path: string)` :
+`@HTTPTrace(path: string)`:
 
-`@HTTPConnect(path: string)` :
-
+`@HTTPConnect(path: string)`:
 
 ## Contributing
 
