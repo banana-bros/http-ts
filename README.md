@@ -82,7 +82,7 @@ httpServer.start();
 
 ## API
 
-### Supported HTML methods
+### Supported HTTP methods
 
 `@HTTPGet(path: string)`:
 
