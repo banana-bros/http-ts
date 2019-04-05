@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { HTTPTraceAction } from '../../../src/controller/helper/HTTPTraceAction';
+import { HTTPTraceAction } from '../../../src';
 
 describe('HTTPTraceAction', () => {
     let httpTraceAction: HTTPTraceAction;

@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { Server } from '../src/Server';
+import { Server } from '../src';
 
 class MockServer extends Server<void> {
     public start(): void {

@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { HTTPHeadAction } from '../../../src/controller/helper/HTTPHeadAction';
+import { HTTPHeadAction } from '../../../src';
 
 describe('HTTPHeadAction', () => {
     let httpHeadAction: HTTPHeadAction;

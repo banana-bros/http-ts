@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { HTTPPostAction } from '../../../src/controller/helper/HTTPPostAction';
+import { HTTPPostAction } from '../../../src';
 
 describe('HTTPPostAction', () => {
     let httpPostAction: HTTPPostAction;

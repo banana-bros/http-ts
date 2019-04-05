@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { HTTPMethod } from '../../src/enum/HTTPMethod';
+import { HTTPMethod } from '../../src';
 
 describe('SecureWebSocketServer', () => {
     beforeEach(() => {

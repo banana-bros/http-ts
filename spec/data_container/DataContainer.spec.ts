@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { DataContainer } from '../../src/data_container/DataContainer';
+import { DataContainer } from '../../src';
 
 describe('DataContainer', () => {
     let dataContainer: DataContainer<void>;

@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { WebSocketServer } from '../../src/websocket/WebSocketServer';
+import { WebSocketServer } from '../../src';
 
 describe('WebSocketServer', () => {
     let webSocketServer: WebSocketServer;

@@ -1,14 +1,14 @@
 import { expect } from 'chai';
-import { HTTPHead } from '../../../../src/controller/decorator/http_method/HTTPHead';
+import { HTTPPost } from '../../../../src';
 
 class MockHTTPMethod {
-    @HTTPHead('some/path')
+    @HTTPPost('some/path')
     public test() {
 
     }
 }
 
-describe('HTTPHead', () => {
+describe('HTTPPost', () => {
     let mockHTTPMethod: MockHTTPMethod;
 
     beforeEach(() => {

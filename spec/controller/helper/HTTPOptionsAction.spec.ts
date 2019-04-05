@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { HTTPOptionsAction } from '../../../src/controller/helper/HTTPOptionsAction';
+import { HTTPOptionsAction } from '../../../src';
 
 describe('HTTPOptionsAction', () => {
     let httpOptionsAction: HTTPOptionsAction;

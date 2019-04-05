@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { HTTPGetAction } from '../../../src/controller/helper/HTTPGetAction';
+import { HTTPGetAction } from '../../../src';
 
 describe('HTTPGetAction', () => {
     let httpGetAction: HTTPGetAction;

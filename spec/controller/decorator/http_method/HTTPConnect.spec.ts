@@ -1,14 +1,14 @@
 import { expect } from 'chai';
-import { HTTPGet } from '../../../../src/controller/decorator/http_method/HTTPGet';
+import { HTTPConnect } from '../../../../src';
 
 class MockHTTPMethod {
-    @HTTPGet('some/path')
+    @HTTPConnect('some/path')
     public test() {
 
     }
 }
 
-describe('HTTPGet', () => {
+describe('HTTPConnect', () => {
     let mockHTTPMethod: MockHTTPMethod;
 
     beforeEach(() => {

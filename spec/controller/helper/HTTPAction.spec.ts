@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { HTTPAction } from '../../../src/controller/helper/HTTPAction';
+import { HTTPAction } from '../../../src';
 
 class MockHTTPAction extends HTTPAction {
     public getServerMethodName(): string {

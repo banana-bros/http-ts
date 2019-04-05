@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { Controller } from '../../src/controller/Controller';
+import { Controller } from '../../src';
 
 class MockController extends Controller<void> {
 

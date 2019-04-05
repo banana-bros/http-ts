@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { HTTPSServer } from '../src/HTTPSServer';
+import { HTTPSServer } from '../src';
 
 describe('HTTPSServer', () => {
     let httpsServer: HTTPSServer;

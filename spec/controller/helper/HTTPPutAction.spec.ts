@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { HTTPPutAction } from '../../../src/controller/helper/HTTPPutAction';
+import { HTTPPutAction } from '../../../src';
 
 describe('HTTPPutAction', () => {
     let httpPutAction: HTTPPutAction;

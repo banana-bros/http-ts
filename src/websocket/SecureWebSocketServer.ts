@@ -4,11 +4,6 @@ import { Subject } from 'rxjs';
 import { Server } from '../Server';
 import { HTTPSServer } from '../HTTPSServer';
 
-export interface ConnectionEvent {
-    connection: WebSocket;
-    request: IncomingMessage;
-}
-
 export class SecureWebSocketServer extends Server<WebSocket.Server> {
     public onListening: Subject<null> = new Subject();
 
@@ -21,11 +16,10 @@ export class SecureWebSocketServer extends Server<WebSocket.Server> {
         super(port);
         this.certificate = certificate;
         this.key = key;
-
-        this.httpsServer = new HTTPSServer(this.port, this.certificate, this.key);
     }
 
     protected createServer(): void {
+        this.httpsServer = new HTTPSServer(this.port, this.certificate, this.key);
 
         this.wssServer = new WebSocket.Server({
             server: this.httpsServer.getServer()

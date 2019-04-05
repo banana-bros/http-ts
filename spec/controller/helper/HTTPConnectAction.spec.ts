@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { HTTPConnectAction } from '../../../src/controller/helper/HTTPConnectAction';
+import { HTTPConnectAction } from '../../../src';
 
 describe('HTTPConnectAction', () => {
     let httpConnectAction: HTTPConnectAction;

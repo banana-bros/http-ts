@@ -1,14 +1,14 @@
 import { expect } from 'chai';
-import { HTTPDelete } from '../../../../src/controller/decorator/http_method/HTTPDelete';
+import { HTTPPut } from '../../../../src';
 
 class MockHTTPMethod {
-    @HTTPDelete('some/path')
+    @HTTPPut('some/path')
     public test() {
 
     }
 }
 
-describe('HTTPDelete', () => {
+describe('HTTPPut', () => {
     let mockHTTPMethod: MockHTTPMethod;
 
     beforeEach(() => {

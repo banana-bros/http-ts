@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { HTTPDeleteAction } from '../../../src/controller/helper/HTTPDeleteAction';
+import { HTTPDeleteAction } from '../../../src';
 
 describe('HTTPDeleteAction', () => {
     let httpDeleteAction: HTTPDeleteAction;

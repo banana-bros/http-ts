@@ -1,14 +1,14 @@
 import { expect } from 'chai';
-import { HTTPTrace } from '../../../../src/controller/decorator/http_method/HTTPTrace';
+import { HTTPOptions } from '../../../../src';
 
 class MockHTTPMethod {
-    @HTTPTrace('some/path')
+    @HTTPOptions('some/path')
     public test() {
 
     }
 }
 
-describe('HTTPTrace', () => {
+describe('HTTPOptions', () => {
     let mockHTTPMethod: MockHTTPMethod;
 
     beforeEach(() => {
