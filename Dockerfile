@@ -1,0 +1,15 @@
+FROM arm32v7/node:9.3-slim
+
+EXPOSE 1080
+EXPOSE 1081
+EXPOSE 1443
+
+ENV HTTP_PORT=1080
+ENV HTTPS_PORT=1081
+ENV WEBSOCKET_PORT=1443
+
+WORKDIR simple-sonoff-server
+ADD ./ ./
+
+RUN npm install
+CMD node sonoff_server.js
