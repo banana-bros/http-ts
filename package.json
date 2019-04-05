@@ -43,7 +43,7 @@
     "lint": "tslint --project tslint.json 'src/**/*.ts'",
     "tsc": "tsc",
     "start": "nodemon --config nodemon.json",
-    "cover": "nyc  -r lcov -e .ts -x \"*.spec.ts\" mocha --require ts-node/register spec/**/*.spec.ts"
+    "cover": "nyc  -r lcov -e .ts -x \"**/*.spec.ts\" mocha --require ts-node/register spec/**/*.spec.ts"
   },
   "keywords": [
     "alkocats",
