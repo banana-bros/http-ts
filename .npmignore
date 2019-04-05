@@ -7,3 +7,7 @@ node_modules/
 tslint.json
 tsconfig.json
 jasmine.json
+.travis.yml
+nodemon.json
+certs
+build/spec
