@@ -7,5 +7,5 @@ export function assign(path: string, HTTPActionClass: new (path: string, propert
             target.actions = [];
         }
         target.actions.push(new HTTPActionClass(path, propertyKey));
-    }
+    };
 }
