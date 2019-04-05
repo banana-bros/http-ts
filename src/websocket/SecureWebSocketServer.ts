@@ -9,7 +9,7 @@ export interface ConnectionEvent {
     request: IncomingMessage;
 }
 
-export class WebSocketServer extends Server<WebSocket.Server> {
+export class SecureWebSocketServer extends Server<WebSocket.Server> {
     public onListening: Subject<null> = new Subject();
 
     private certificate: string | Buffer | (string | Buffer)[];
