@@ -1,7 +1,7 @@
 import { HTTPAction } from './HTTPAction';
 
 export class HTTPTraceAction extends HTTPAction {
-    getServerMethodName(): string {
+    getMethodName(): string {
         return 'trace';
     }
 }

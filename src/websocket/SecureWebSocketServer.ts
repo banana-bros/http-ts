@@ -20,10 +20,6 @@ export class SecureWebSocketServer extends SecureServer<WebSocket.Server> {
         this.wssServer.on('listening', () => this.onListening.next());
 
         this.wssServer.on('connection', (connection: WebSocket, request: IncomingMessage) => {
-            this.onConnection.next({
-                connection: connection,
-                request: request
-            } as any);
         });
     }
 

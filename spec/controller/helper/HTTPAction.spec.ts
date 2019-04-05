@@ -1,8 +1,9 @@
 import { expect } from 'chai';
 import { HTTPAction } from '../../../src';
+import { IRouterMatcher, Application } from 'express';
 
 class MockHTTPAction extends HTTPAction {
-    public getServerMethodName(): string {
+    public getExpressMethod(): IRouterMatcher<Application> {
         return null;
     }
 }

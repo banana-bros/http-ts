@@ -31,16 +31,16 @@ npm install http-ts
 All relevant imports for a minimal setup:
 
 ``` typescript
-import { HTTPSServer, Controller, DataContainer, HTTPGet } from 'http-ts';
 import { Request, Response } from 'express';
+import { DataContainer, Controller, HTTPGet, HTTPServer } from './data_container';
 ```
 
 The user interface for the data container:
 
 ``` typescript
 interface User {
-    name: string,
-    password: string
+    name: string;
+    password: string;
 }
 ```
 
@@ -53,7 +53,7 @@ class UserContainer extends DataContainer<User[]> {
         super([{
             name: 'adam',
             password: 'password1'
-        }])
+        }]);
     }
 }
 ```
@@ -65,7 +65,7 @@ class UserController extends Controller<UserContainer> {
 
     @HTTPGet('/users')
     public getUsers(request: Request, response: Response): void {
-        console.log('Status.GET | %s | %s ', request.method, request.url);
+        console.log('Request: %s %s ', request.method, request.url);
         response.json(this.dataContainer.getData());
     }
 }
@@ -75,7 +75,7 @@ Bringin all together:
 
 ``` typescript
 const httpServer = new HTTPServer(80);
-const userController = new UserController();
+const userController = new UserController(new UserContainer());
 httpServer.registerController(userController);
 httpServer.start();
 ```

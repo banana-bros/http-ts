@@ -1,8 +1,7 @@
 import { HTTPAction } from './HTTPAction';
 
-
 export class HTTPOptionsAction extends HTTPAction {
-    getServerMethodName(): string {
+    getMethodName(): string {
         return 'options';
     }
 }

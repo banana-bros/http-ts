@@ -1,7 +1,7 @@
 import { HTTPAction } from './HTTPAction';
 
 export class HTTPPutAction extends HTTPAction {
-    getServerMethodName(): string {
+    getMethodName(): string {
         return 'put';
     }
 }

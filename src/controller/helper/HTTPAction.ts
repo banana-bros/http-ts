@@ -1,3 +1,4 @@
+import { IRouterMatcher, Application } from 'express';
 import { Server } from '../../Server';
 import { RequestHandler } from 'express';
 
@@ -11,12 +12,14 @@ export abstract class HTTPAction {
     }
 
     public getServerMethod(server: Server<any>): (path: string, ...handlers: RequestHandler[]) => void {
-        const serverMethodName = this.getServerMethodName();
-        if (!server[serverMethodName]) {
-            throw new Error(`Server Method ${serverMethodName} not found`);
+        const application = server.getExpress();
+        const methodName = this.getMethodName();
+
+        if (!application || !application[methodName]) {
+            throw new Error(`Server Method ${methodName} not found`);
         }
-        return server.getExpress()[serverMethodName].bind(server);
+        return application[methodName].bind(application);
     }
 
-    protected abstract getServerMethodName(): string;
+    protected abstract getMethodName(): string;
 }

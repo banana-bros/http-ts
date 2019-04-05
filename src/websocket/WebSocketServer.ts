@@ -8,18 +8,18 @@ export class WebSocketServer extends Server<WebSocket.Server> {
     public onListening: Subject<null> = new Subject();
 
     private httpServer: HTTPServer;
-    private wssServer: WebSocket.Server;
+    private wsServer: WebSocket.Server;
 
     protected createServer(): void {
         this.httpServer = new HTTPServer(this.port);
 
-        this.wssServer = new WebSocket.Server({
+        this.wsServer = new WebSocket.Server({
             server: this.httpServer.getServer()
         });
 
-        this.wssServer.on('listening', () => this.onListening.next());
+        this.wsServer.on('listening', () => this.onListening.next());
 
-        this.wssServer.on('connection', (connection: WebSocket, request: IncomingMessage) => {
+        this.wsServer.on('connection', (connection: WebSocket, request: IncomingMessage) => {
             this.onConnection.next({
                 connection: connection,
                 request: request
