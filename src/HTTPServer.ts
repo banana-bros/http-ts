@@ -2,7 +2,7 @@ import * as http from 'http';
 import { Server } from './Server';
 
 export class HTTPServer extends Server<http.Server> {
-    constructor(port: number) {
+    constructor(port: number = 80) {
         super(port);
     }
 
