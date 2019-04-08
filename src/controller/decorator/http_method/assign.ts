@@ -6,6 +6,7 @@ export function assign(path: string, HTTPActionClass: new (path: string, propert
         if (!target.actions) {
             target.actions = [];
         }
+
         target.actions.push(new HTTPActionClass(path, propertyKey));
     };
 }

@@ -1,5 +1,5 @@
 import { IRouterMatcher, Application } from 'express';
-import { Server } from '../../Server';
+import { Server } from '../../../Server';
 import { RequestHandler } from 'express';
 
 export abstract class HTTPAction {

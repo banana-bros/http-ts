@@ -3,6 +3,7 @@ import * as express from 'express';
 import { Controller } from './controller/Controller';
 import bodyParser = require('body-parser');
 import { Exception } from 'handlebars';
+import { Authorizer, NoAuthorizer } from './authorizer';
 
 export abstract class Server<T> {
     public onClose: Subject<null> = new Subject();
@@ -24,12 +25,14 @@ export abstract class Server<T> {
         this._port = port;
     }
 
+    protected authorizer: Authorizer;
     protected express: express.Express;
     protected server: T;
     protected controllers: Controller<any>[] = [];
 
-    constructor(port: number) {
+    constructor(port: number, authorizer: Authorizer = new NoAuthorizer()) {
         this.port = port;
+        this.authorizer = authorizer;
         this.express = express();
         this.express.use(bodyParser.json());
         this.express.use(bodyParser.urlencoded({ extended: true }));
@@ -42,6 +45,10 @@ export abstract class Server<T> {
     public abstract start(): void;
     public abstract stop(): void;
     protected abstract createServer(): void;
+
+    public isAuthorized() {
+        return this.authorizer.isAuthorized();
+    }
 
     public getServer(): T {
         return this.server;
