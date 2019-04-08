@@ -9,7 +9,15 @@ export abstract class Server<T> {
     public onError: Subject<Error> = new Subject();
     public onListen: Subject<null> = new Subject();
 
-    protected port: number;
+    private _port: number;
+    get port(): number {
+        return this._port;
+    }
+
+    set port(port: number) {
+        this._port = port;
+    }
+
     protected express: express.Express;
     protected server: T;
     protected controllers: Controller<any>[] = [];
