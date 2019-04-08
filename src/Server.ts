@@ -2,6 +2,7 @@ import { Subject } from 'rxjs';
 import * as express from 'express';
 import { Controller } from './controller/Controller';
 import bodyParser = require('body-parser');
+import { Exception } from 'handlebars';
 
 export abstract class Server<T> {
     public onClose: Subject<null> = new Subject();
@@ -9,12 +10,17 @@ export abstract class Server<T> {
     public onError: Subject<Error> = new Subject();
     public onListen: Subject<null> = new Subject();
 
+    private isRunning = false;
+
     private _port: number;
     get port(): number {
         return this._port;
     }
 
     set port(port: number) {
+        if (this.isRunning) {
+            throw Exception('Unable to set port as server is still running');
+        }
         this._port = port;
     }
 
@@ -29,6 +35,8 @@ export abstract class Server<T> {
         this.express.use(bodyParser.urlencoded({ extended: true }));
 
         this.createServer();
+        this.onListen.subscribe(() => this.isRunning = true);
+        this.onClose.subscribe(() => this.isRunning = false);
     }
 
     public abstract start(): void;
