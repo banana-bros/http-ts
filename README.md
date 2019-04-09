@@ -7,7 +7,7 @@
 [![MIT License](https://img.shields.io/github/license/Rothen/http-ts.svg)](https://github.com/Rothen/http-ts/blob/master/LICENSE)
 [![Known Vulnerabilities](https://snyk.io/test/github/Rothen/http-ts/badge.svg)](https://snyk.io/test/github/Rothen/http-ts)
 [![dependencies Status](https://david-dm.org/Rothen/http-ts/status.svg)](https://david-dm.org/Rothen/http-ts)
-[![devDependencies Status](https://david-dm.org/Rothen/http-ts/dev-status.svg)](https://david-dm.org/Rothen/http-ts?type=dev)
+[![devDependencies Status](https://david-dm.org/Rothen/http-ts/dev-status.svg)](https://david-dm.org/Rothen/http-ts?type=dev) [![Greenkeeper badge](https://badges.greenkeeper.io/Rothen/http-ts.svg)](https://greenkeeper.io/)
 
 - [Installation](#installation)
 - [Usage](#usage)
