@@ -1,4 +1,4 @@
-export class DataContainer<T> {
+export class Repository<T> {
     protected data: T;
 
     constructor(data: T) {

@@ -1,14 +1,14 @@
 import { expect } from 'chai';
-import { DataContainer } from '../../src';
+import { Repository } from '../../src';
 
-describe('DataContainer', () => {
-    let dataContainer: DataContainer<void>;
+describe('Repository', () => {
+    let repository: Repository<void>;
 
     beforeEach(() => {
-        dataContainer = new DataContainer(null);
+        repository = new Repository(null);
     });
 
     it('should be created', () => {
-        expect(dataContainer).to.be.ok;
+        expect(repository).to.be.ok;
     });
 });

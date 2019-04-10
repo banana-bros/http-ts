@@ -32,7 +32,7 @@ All relevant imports for a minimal setup:
 
 ``` typescript
 import { Request, Response } from 'express';
-import { DataContainer, Controller, HTTPGet, HTTPServer } from '@alkocats/http-ts';
+import { Repository, Controller, HTTPGet, HTTPServer } from '@alkocats/http-ts';
 ```
 
 The user interface for the data container:
@@ -47,7 +47,7 @@ interface User {
 The user container for the stored data the controller uses:
 
 ``` typescript
-class UserContainer extends DataContainer<User[]> {
+class UserContainer extends Repository<User[]> {
 
     constructor() {
         super([{
@@ -66,7 +66,7 @@ class UserController extends Controller<UserContainer> {
     @HTTPGet('/users')
     public getUsers(request: Request, response: Response): void {
         console.log('Request: %s %s ', request.method, request.url);
-        response.json(this.dataContainer.getData());
+        response.json(this.repository.getData());
     }
 }
 ```

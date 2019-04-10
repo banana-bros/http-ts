@@ -6,10 +6,10 @@ export abstract class Controller<T> {
     public actions: HTTPAction[];
     public authorizedActions: Set<string>;
 
-    protected dataContainer: T;
+    protected repository: T;
 
-    constructor(dataContainer: T) {
-        this.dataContainer = dataContainer;
+    constructor(repository: T) {
+        this.repository = repository;
         if (!this.actions) {
             this.actions = [];
         }
