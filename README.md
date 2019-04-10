@@ -35,7 +35,7 @@ import { Request, Response } from 'express';
 import { Repository, Controller, HTTPGet, HTTPServer } from '@alkocats/http-ts';
 ```
 
-The user interface for the data container:
+The user interface for the user repository:
 
 ``` typescript
 interface User {
@@ -44,10 +44,10 @@ interface User {
 }
 ```
 
-The user container for the stored data the controller uses:
+The user repository for the stored data the controller uses:
 
 ``` typescript
-class UserContainer extends Repository<User[]> {
+class UserRepository extends Repository<User[]> {
 
     constructor() {
         super([{
@@ -61,7 +61,7 @@ class UserContainer extends Repository<User[]> {
 The user controller which handles the user requests equipped with one GET-method:
 
 ``` typescript
-class UserController extends Controller<UserContainer> {
+class UserController extends Controller<UserRepository> {
 
     @HTTPGet('/users')
     public getUsers(request: Request, response: Response): void {
@@ -75,7 +75,7 @@ Bringin all together:
 
 ``` typescript
 const httpServer = new HTTPServer(80);
-const userController = new UserController(new UserContainer());
+const userController = new UserController(new UserRepository());
 httpServer.registerController(userController);
 httpServer.start();
 ```
