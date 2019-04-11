@@ -4,6 +4,7 @@ export * from './http_method/HTTPDeleteAction';
 export * from './http_method/HTTPGetAction';
 export * from './http_method/HTTPHeadAction';
 export * from './http_method/HTTPOptionsAction';
+export * from './http_method/HTTPPatchAction';
 export * from './http_method/HTTPPostAction';
 export * from './http_method/HTTPPutAction';
 export * from './http_method/HTTPTraceAction';
