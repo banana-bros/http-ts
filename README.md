@@ -21,7 +21,7 @@
 ## Installation
 
 ``` shell
-npm install http-ts
+npm install @alkocats/http-ts
 ```
 
 ## Usage
