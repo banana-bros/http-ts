@@ -6,3 +6,4 @@ export * from './websocket/index';
 export * from './enum/index';
 export * from './repository/index';
 export * from './controller/index';
+export * from './authorizer/index';
