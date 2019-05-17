@@ -22,7 +22,7 @@ export class JWTAuthorizer<T> extends Authorizer {
 
         if (!token) {
             response.status(403).send({ auth: false, message: 'No token provided.' });
-            return true;
+            return false;
         }
 
         try {
