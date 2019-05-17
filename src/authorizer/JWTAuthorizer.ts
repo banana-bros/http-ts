@@ -20,17 +20,23 @@ export class JWTAuthorizer<T> extends Authorizer {
     }
 
     public isAuthorized(request: Request, response: Response): boolean {
-        const token = request.headers['x-access-token'] as string;
-
-        if (!token) {
-            response.status(403).send({ auth: false, message: 'No token provided.' });
-            return false;
-        }
-
-        try {
-            const decoded = jwt.verify(token, this.secret);
-            return true;
-        } catch (err) {
+        const authorizationHeader = request.headers['Authorization'] as string;
+        if (authorizationHeader) {
+            try {
+                let authorization = authorizationHeader.split(' ');
+                if (authorization[0] !== 'Bearer') {
+                    response.status(401).send();
+                    return false;
+                } else {
+                    jwt.verify(authorization[1], this.secret);
+                    return true;
+                }
+            } catch (err) {
+                response.status(403).send();
+                return false;
+            }
+        } else {
+            response.status(401).send();
             return false;
         }
     }
