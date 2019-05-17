@@ -46,8 +46,8 @@ export abstract class Server<T> {
     public abstract stop(): void;
     protected abstract createServer(): void;
 
-    public isAuthorized() {
-        return this.authorizer.isAuthorized();
+    public isAuthorized(request: express.Request, response: express.Response) {
+        return this.authorizer.isAuthorized(request, response);
     }
 
     public getServer(): T {

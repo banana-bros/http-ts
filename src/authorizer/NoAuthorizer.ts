@@ -1,15 +1,16 @@
 import { Authorizer } from './Authorizer';
+import { Response, Request } from 'express';
 
 export class NoAuthorizer extends Authorizer {
-    public isAuthorized(): boolean {
+    public isAuthorized(request: Request, response: Response): boolean {
         return true;
     }
 
-    public authorize(): void {
+    public authorize(request: Request, response: Response): void {
 
     }
 
-    public deauthorize(): void {
+    public unauthorize(request: Request, response: Response): void {
 
     }
 }

@@ -5,10 +5,13 @@
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "dependencies": {
+    "@types/jsonwebtoken": "^8.3.2",
+    "bcrypt": "^3.0.6",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "http": "^0.0.0",
     "https": "^1.0.0",
+    "jsonwebtoken": "^8.5.1",
     "npm": "^6.9.0",
     "request": "^2.88.0",
     "rxjs": "^6.4.0",

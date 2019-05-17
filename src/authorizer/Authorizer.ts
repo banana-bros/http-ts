@@ -1,5 +1,7 @@
+import { Response, Request } from 'express';
+
 export abstract class Authorizer {
-    public abstract isAuthorized(): boolean;
-    public abstract authorize(): void;
-    public abstract deauthorize(): void;
+    public abstract isAuthorized(request: Request, response: Response): boolean;
+    public abstract authorize(request: Request, response: Response): void;
+    public abstract unauthorize(request: Request, response: Response): void;
 }
