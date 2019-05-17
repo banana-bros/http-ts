@@ -9,8 +9,8 @@ export class JWTAuthorizer<T> extends Authorizer {
     private identificationKey: keyof T;
     private passwordKey: keyof T;
 
-    constructor(repository: Repository<T[]>, identificationKey: keyof T, passwordKey: keyof T) {
-        super();
+    constructor(repository: Repository<T[]>, identificationKey: keyof T, passwordKey: keyof T, path?: string) {
+        super(path);
 
         this.repository = repository;
         this.identificationKey = identificationKey;
