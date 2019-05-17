@@ -38,6 +38,7 @@ export abstract class Server<T> {
         this.express.use(bodyParser.urlencoded({ extended: true }));
 
         this.createServer();
+        this.registerAuthorization();
         this.onListen.subscribe(() => this.isRunning = true);
         this.onClose.subscribe(() => this.isRunning = false);
     }
@@ -45,6 +46,16 @@ export abstract class Server<T> {
     public abstract start(): void;
     public abstract stop(): void;
     protected abstract createServer(): void;
+
+    protected registerAuthorization(): void {
+        const path = this.authorizer.getPath();
+
+        if (path) {
+            this.express.post(this.authorizer.getPath(), (request: express.Request, response: express.Response) => {
+                this.authorizer.authorize(request, response);
+            });
+        }
+    }
 
     public isAuthorized(request: express.Request, response: express.Response) {
         return this.authorizer.isAuthorized(request, response);
