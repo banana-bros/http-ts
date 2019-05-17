@@ -8,13 +8,15 @@ export class JWTAuthorizer<T> extends Authorizer {
     private repository: Repository<T[]>;
     private identificationKey: keyof T;
     private passwordKey: keyof T;
+    private secret: string;
 
-    constructor(repository: Repository<T[]>, identificationKey: keyof T, passwordKey: keyof T, path?: string) {
+    constructor(repository: Repository<T[]>, identificationKey: keyof T, passwordKey: keyof T, secret: string, path?: string) {
         super(path);
 
         this.repository = repository;
         this.identificationKey = identificationKey;
         this.passwordKey = passwordKey;
+        this.secret = secret;
     }
 
     public isAuthorized(request: Request, response: Response): boolean {
@@ -26,7 +28,7 @@ export class JWTAuthorizer<T> extends Authorizer {
         }
 
         try {
-            const decoded = jwt.verify(token, 'irgendeinsecret');
+            const decoded = jwt.verify(token, this.secret);
             return true;
         } catch (err) {
             return false;
@@ -62,7 +64,7 @@ export class JWTAuthorizer<T> extends Authorizer {
             return null; // res.status(401).send({ auth: false, token: null });
         }
 
-        const token = jwt.sign({ identification: identification }, 'irgendeinsecret', {
+        const token = jwt.sign({ identification: identification }, this.secret, {
             expiresIn: 86400 // expires in 24 hours
         });
 
