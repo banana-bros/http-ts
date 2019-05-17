@@ -23,7 +23,7 @@ export abstract class Controller<T> {
             const serverMethod = action.getServerMethod(server);
             if (this.authorizedActions.has(action.method)) {
                 serverMethod(action.path, (request: Request, response: Response) => {
-                    if (server.isAuthorized()) {
+                    if (server.isAuthorized(request, response)) {
                         return this[action.method](request, response);
                     } else {
                         response.status(401);

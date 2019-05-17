@@ -4,7 +4,7 @@ import { Authorizer, NoAuthorizer } from './authorizer';
 
 export class HTTPServer extends Server<http.Server> {
     constructor(port: number = 80, authorizer: Authorizer = new NoAuthorizer()) {
-        super(port);
+        super(port, authorizer);
     }
 
     protected createServer() {
