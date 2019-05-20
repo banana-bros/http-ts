@@ -1,8 +1,8 @@
 import { Authorizer } from './Authorizer';
 import * as jwt from 'jsonwebtoken';
 import { Request, Response } from 'express';
-import { Repository } from 'src/repository';
 import * as bcrypt from 'bcrypt';
+import { Repository } from '../repository/Repository';
 
 export class JWTAuthorizer<T> extends Authorizer {
     private repository: Repository<T[]>;
