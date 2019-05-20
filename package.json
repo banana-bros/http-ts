@@ -1,6 +1,6 @@
 {
   "name": "@alkocats/http-ts",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "A Typescript HTTP server wrapper with express.",
   "main": "build/index.js",
   "types": "build/index.d.ts",
