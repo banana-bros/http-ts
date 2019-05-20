@@ -25,11 +25,6 @@ export abstract class Controller<T> {
                 serverMethod(action.path, (request: Request, response: Response) => {
                     if (server.isAuthorized(request, response)) {
                         return this[action.method](request, response);
-                    } else {
-                        response.status(401);
-                        response.json({
-                            error: 'not authorized'
-                        });
                     }
                 });
             } else {
