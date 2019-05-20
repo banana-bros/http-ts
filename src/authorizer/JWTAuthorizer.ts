@@ -20,7 +20,7 @@ export class JWTAuthorizer<T> extends Authorizer {
     }
 
     public isAuthorized(request: Request, response: Response): boolean {
-        const authorizationHeader = request.headers['Authorization'] as string;
+        const authorizationHeader = request.headers['authorization'] as string;
         if (authorizationHeader) {
             try {
                 let authorization = authorizationHeader.split(' ');
