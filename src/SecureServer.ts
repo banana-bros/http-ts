@@ -1,5 +1,5 @@
 import { Server } from './Server';
-import { Authorizer, NoAuthorizer } from './authorizer';
+import { Authenticator, NoAuthenticator } from './authenticator';
 
 export abstract class SecureServer<T> extends Server<T> {
     protected certificate: string | Buffer | (string | Buffer)[];
@@ -8,9 +8,9 @@ export abstract class SecureServer<T> extends Server<T> {
     constructor(port: number,
         certificate: string | Buffer | (string | Buffer)[],
         key: string | Buffer | (string | Buffer)[],
-        authorizer: Authorizer = new NoAuthorizer()) {
+        authenticator: Authenticator = new NoAuthenticator()) {
 
-        super(port, authorizer);
+        super(port, authenticator);
         this.certificate = certificate;
         this.key = key;
     }

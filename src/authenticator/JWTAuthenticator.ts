@@ -1,10 +1,10 @@
-import { Authorizer } from './Authorizer';
+import { Authenticator } from './Authenticator';
 import * as jwt from 'jsonwebtoken';
 import { Request, Response } from 'express';
 import * as bcrypt from 'bcrypt';
 import { Repository } from '../repository/Repository';
 
-export class JWTAuthorizer<T> extends Authorizer {
+export class JWTAuthenticator<T> extends Authenticator {
     private repository: Repository<T[]>;
     private identificationKey: keyof T;
     private passwordKey: keyof T;
@@ -19,7 +19,7 @@ export class JWTAuthorizer<T> extends Authorizer {
         this.secret = secret;
     }
 
-    public isAuthorized(request: Request, response: Response): boolean {
+    public isAuthenticated(request: Request, response: Response): boolean {
         const authorizationHeader = request.headers['authorization'] as string;
         if (authorizationHeader) {
             try {
@@ -41,7 +41,7 @@ export class JWTAuthorizer<T> extends Authorizer {
         }
     }
 
-    public authorize(request: Request, response: Response): void {
+    public authenticate(request: Request, response: Response): void {
         const loginToken = this.getLoginToken(request, response);
         const result = {
             auth: (loginToken != null),
@@ -77,7 +77,7 @@ export class JWTAuthorizer<T> extends Authorizer {
         return token;
     }
 
-    public unauthorize(request: Request, response: Response): void {
+    public unauthenticate(request: Request, response: Response): void {
 
     }
 }

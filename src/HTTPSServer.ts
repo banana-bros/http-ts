@@ -1,6 +1,6 @@
 import * as https from 'https';
 import { SecureServer } from './SecureServer';
-import { Authorizer, NoAuthorizer } from './authorizer';
+import { Authenticator, NoAuthenticator } from './authenticator';
 
 export class HTTPSServer extends SecureServer<https.Server> {
     protected httpsServer: https.Server;
@@ -8,9 +8,9 @@ export class HTTPSServer extends SecureServer<https.Server> {
     constructor(port: number = 443,
         certificate: string | Buffer | (string | Buffer)[],
         key: string | Buffer | (string | Buffer)[],
-        authorizer: Authorizer = new NoAuthorizer()) {
+        authenticator: Authenticator = new NoAuthenticator()) {
 
-        super(port, certificate, key, authorizer);
+        super(port, certificate, key, authenticator);
     }
 
     protected createServer(): void {

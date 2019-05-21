@@ -4,7 +4,7 @@ import { Request, Response } from 'express';
 
 export abstract class Controller<T> {
     public actions: HTTPAction[];
-    public authorizedActions: Set<string>;
+    public authenticatedActions: Set<string>;
 
     protected repository: T;
 
@@ -13,17 +13,17 @@ export abstract class Controller<T> {
         if (!this.actions) {
             this.actions = [];
         }
-        if (!this.authorizedActions) {
-            this.authorizedActions = new Set<string>();
+        if (!this.authenticatedActions) {
+            this.authenticatedActions = new Set<string>();
         }
     }
 
     public registerActions(server: Server<any>) {
         for (const action of this.actions) {
             const serverMethod = action.getServerMethod(server);
-            if (this.authorizedActions.has(action.method)) {
+            if (this.authenticatedActions.has(action.method)) {
                 serverMethod(action.path, (request: Request, response: Response) => {
-                    if (server.isAuthorized(request, response)) {
+                    if (server.isAuthenticated(request, response)) {
                         return this[action.method](request, response);
                     }
                 });

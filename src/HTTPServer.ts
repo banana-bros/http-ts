@@ -1,10 +1,10 @@
 import * as http from 'http';
 import { Server } from './Server';
-import { Authorizer, NoAuthorizer } from './authorizer';
+import { Authenticator, NoAuthenticator } from './authenticator';
 
 export class HTTPServer extends Server<http.Server> {
-    constructor(port: number = 80, authorizer: Authorizer = new NoAuthorizer()) {
-        super(port, authorizer);
+    constructor(port: number = 80, authenticator: Authenticator = new NoAuthenticator()) {
+        super(port, authenticator);
     }
 
     protected createServer() {

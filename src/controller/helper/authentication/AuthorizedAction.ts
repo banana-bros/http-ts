@@ -1,4 +1,4 @@
-export class AuthorizedAction {
+export class AuthenticatedAction {
     public method: string;
 
     constructor(method: string) {

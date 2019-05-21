@@ -3,7 +3,7 @@ import * as express from 'express';
 import { Controller } from './controller/Controller';
 import bodyParser = require('body-parser');
 import { Exception } from 'handlebars';
-import { Authorizer, NoAuthorizer } from './authorizer';
+import { Authenticator, NoAuthenticator } from './authenticator';
 
 export abstract class Server<T> {
     public onClose: Subject<null> = new Subject();
@@ -25,14 +25,14 @@ export abstract class Server<T> {
         this._port = port;
     }
 
-    protected authorizer: Authorizer;
+    protected authenticator: Authenticator;
     protected express: express.Express;
     protected server: T;
     protected controllers: Controller<any>[] = [];
 
-    constructor(port: number, authorizer: Authorizer = new NoAuthorizer()) {
+    constructor(port: number, authenticator: Authenticator = new NoAuthenticator()) {
         this.port = port;
-        this.authorizer = authorizer;
+        this.authenticator = authenticator;
         this.express = express();
         this.express.use(bodyParser.json());
         this.express.use(bodyParser.urlencoded({ extended: true }));
@@ -48,17 +48,17 @@ export abstract class Server<T> {
     protected abstract createServer(): void;
 
     protected registerAuthorization(): void {
-        const path = this.authorizer.getPath();
+        const path = this.authenticator.getPath();
 
         if (path) {
-            this.express.post(this.authorizer.getPath(), (request: express.Request, response: express.Response) => {
-                this.authorizer.authorize(request, response);
+            this.express.post(this.authenticator.getPath(), (request: express.Request, response: express.Response) => {
+                this.authenticator.authenticate(request, response);
             });
         }
     }
 
-    public isAuthorized(request: express.Request, response: express.Response) {
-        return this.authorizer.isAuthorized(request, response);
+    public isAuthenticated(request: express.Request, response: express.Response) {
+        return this.authenticator.isAuthenticated(request, response);
     }
 
     public getServer(): T {
