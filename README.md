@@ -71,7 +71,7 @@ class UserController extends Controller<UserRepository> {
 }
 ```
 
-Bringin all together:
+Bringing it all together:
 
 ``` typescript
 const httpServer = new HTTPServer(80);
