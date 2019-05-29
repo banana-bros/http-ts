@@ -5,6 +5,7 @@ import bodyParser = require('body-parser');
 import { Exception } from 'handlebars';
 import { Authenticator, NoAuthenticator } from './authenticator';
 import * as winston from 'winston';
+import { first } from 'rxjs/operators';
 
 const defaultLogger: winston.Logger = winston.createLogger({
     format: winston.format.cli(),
@@ -51,8 +52,21 @@ export abstract class Server<T> {
 
         this.createServer();
         this.registerAuthorization();
+        this.startListening();
+    }
+
+    protected startListening(): void {
         this.onListen.subscribe(() => this.isRunning = true);
         this.onClose.subscribe(() => this.isRunning = false);
+
+        this.onListen.pipe(
+            first()
+        )
+        .subscribe(_ => this.logger.info(`${this.constructor.name}: Listening on port ${this.port}`));
+        this.onClose.pipe(
+            first()
+        )
+        .subscribe(_ => this.logger.info(`${this.constructor.name}: Server closed`));
     }
 
     public abstract start(): void;
@@ -61,15 +75,16 @@ export abstract class Server<T> {
 
     protected registerAuthorization(): void {
         const path = this.authenticator.getPath();
+        const message = `${this.constructor.name}: ${this.authenticator.constructor.name} `;
 
         if (path) {
             this.express.post(this.authenticator.getPath(), (request: express.Request, response: express.Response) => {
                 this.authenticator.authenticate(request, response);
             });
 
-            this.logger.info(`${this.constructor.name}: ${this.authenticator.constructor.name} registered`);
+            this.logger.info(`${message} registered`);
         } else {
-            this.logger.warn(`${this.constructor.name}: ${this.authenticator.constructor.name} could not be registered (no path)`);
+            this.logger.warn(`${message} could not be registered (no path)`);
         }
     }
 

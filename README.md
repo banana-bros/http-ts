@@ -1,8 +1,9 @@
 # http-ts
 
-[![Build Status](https://travis-ci.org/Rothen/http-ts.svg?branch=master)](https://travis-ci.org/Rothen/http-ts)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/fb418ee88ca7df4c0a63/test_coverage)](https://codeclimate.com/github/Rothen/http-ts/test_coverage)
-[![Maintainability](https://api.codeclimate.com/v1/badges/fb418ee88ca7df4c0a63/maintainability)](https://codeclimate.com/github/Rothen/http-ts/maintainability)
+[![Build
+Status](https://travis-ci.org/Rothen/http-ts.svg?branch=master)](https://travis-ci.org/Rothen/http-ts)
+[![Maintainability](https://api.codeclimate.com/v1/badges/e37726ae1bb239134152/maintainability)](https://codeclimate.com/github/alkocats/http-ts/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/e37726ae1bb239134152/test_coverage)](https://codeclimate.com/github/alkocats/http-ts/test_coverage)
 [![npm version](https://badge.fury.io/js/%40alkocats%2Fhttp-ts.svg)](https://badge.fury.io/js/%40alkocats%2Fhttp-ts)
 [![MIT License](https://img.shields.io/github/license/Rothen/http-ts.svg)](https://github.com/Rothen/http-ts/blob/master/LICENSE)
 [![Known Vulnerabilities](https://snyk.io/test/github/Rothen/http-ts/badge.svg)](https://snyk.io/test/github/Rothen/http-ts)

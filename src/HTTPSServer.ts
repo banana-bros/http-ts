@@ -27,20 +27,10 @@ export class HTTPSServer extends SecureServer<https.Server> {
     }
 
     public start(): void {
-        this.onListen.pipe(
-            first()
-        )
-        .subscribe(_ => this.logger.info(`${this.constructor.name}: Listening on port ${this.port}`));
-
         this.server.listen(this.port);
     }
 
     public stop(): void {
-        this.onClose.pipe(
-            first()
-        )
-        .subscribe(_ => this.logger.info(`${this.constructor.name}: Server closed`));
-
         this.server.close();
     }
 }
