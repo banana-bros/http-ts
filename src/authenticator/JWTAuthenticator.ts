@@ -64,7 +64,7 @@ export class JWTAuthenticator<T> extends Authenticator {
             return null; // res.status(404).send('No user found.');
         }
 
-        const passwordIsValid = bcrypt.compareSync(password, foundUser[this.passwordKey]);
+        const passwordIsValid = bcrypt.compareSync(password, foundUser[this.passwordKey].toString());
 
         if (!passwordIsValid) {
             return null; // res.status(401).send({ auth: false, token: null });
