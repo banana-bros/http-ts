@@ -3,6 +3,7 @@ import * as jwt from 'jsonwebtoken';
 import { Request, Response } from 'express';
 import * as bcrypt from 'bcrypt';
 import { Repository } from '../repository/Repository';
+import { HTTP_STATUS } from '../enum/HTTP_STATUS';
 
 export class JWTAuthenticator<T> extends Authenticator {
     private repository: Repository<T[]>;
@@ -21,23 +22,31 @@ export class JWTAuthenticator<T> extends Authenticator {
 
     public isAuthenticated(request: Request, response: Response): boolean {
         const authorizationHeader = request.headers['authorization'] as string;
+        let statusCode = HTTP_STATUS.CODE_401_UNAUTHORIZED;
+
         if (authorizationHeader) {
-            try {
-                let authorization = authorizationHeader.split(' ');
-                if (authorization[0] !== 'Bearer') {
-                    response.status(401).send();
-                    return false;
-                } else {
-                    jwt.verify(authorization[1], this.secret);
-                    return true;
-                }
-            } catch (err) {
-                response.status(403).send();
-                return false;
-            }
+            statusCode = this.parseAuthorizationHeader(authorizationHeader);
+        }
+
+        response.status(statusCode).send();
+        return statusCode === HTTP_STATUS.CODE_200_OK;
+    }
+
+    private parseAuthorizationHeader(authorizationHeader: string) {
+        try {
+            const authorization = authorizationHeader.split(' ');
+            this.checkAuthorizationBearer(authorization);
+        } catch (err) {
+            return HTTP_STATUS.CODE_403_FORBIDDEN;
+        }
+    }
+
+    private checkAuthorizationBearer(authorization: string[]): number {
+        if (authorization[0] !== 'Bearer') {
+            return HTTP_STATUS.CODE_401_UNAUTHORIZED;
         } else {
-            response.status(401).send();
-            return false;
+            jwt.verify(authorization[1], this.secret);
+            return HTTP_STATUS.CODE_200_OK;
         }
     }
 
@@ -49,9 +58,9 @@ export class JWTAuthenticator<T> extends Authenticator {
         };
 
         if (result.auth) {
-            response.status(200).json(result);
+            response.status(HTTP_STATUS.CODE_200_OK).json(result);
         } else {
-            response.status(401).json(result);
+            response.status(HTTP_STATUS.CODE_401_UNAUTHORIZED).json(result);
         }
     }
 
@@ -61,13 +70,13 @@ export class JWTAuthenticator<T> extends Authenticator {
         const foundUser = this.repository.getData().find(user => user[this.identificationKey] === identification);
 
         if (!foundUser) {
-            return null; // res.status(404).send('No user found.');
+            return null;
         }
 
         const passwordIsValid = bcrypt.compareSync(password, foundUser[this.passwordKey].toString());
 
         if (!passwordIsValid) {
-            return null; // res.status(401).send({ auth: false, token: null });
+            return null;
         }
 
         const token = jwt.sign({ identification: identification }, this.secret, {

@@ -7,6 +7,7 @@ import { Authenticator, NoAuthenticator } from './authenticator';
 import * as winston from 'winston';
 
 const defaultLogger: winston.Logger = winston.createLogger({
+    format: winston.format.cli(),
     transports: [
         new winston.transports.Console()
     ]
