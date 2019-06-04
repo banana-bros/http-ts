@@ -35,18 +35,18 @@ export class JWTAuthenticator<T> extends Authenticator {
     private parseAuthorizationHeader(authorizationHeader: string) {
         try {
             const authorization = authorizationHeader.split(' ');
-            this.checkAuthorizationBearer(authorization);
+            return this.checkAuthorizationBearer(authorization);
         } catch (err) {
             return HTTP_STATUS.CODE_403_FORBIDDEN;
         }
     }
 
     private checkAuthorizationBearer(authorization: string[]): number {
-        if (authorization[0] !== 'Bearer') {
-            return HTTP_STATUS.CODE_401_UNAUTHORIZED;
-        } else {
+        if (authorization[0] === 'Bearer') {
             jwt.verify(authorization[1], this.secret);
             return HTTP_STATUS.CODE_200_OK;
+        } else {
+            return HTTP_STATUS.CODE_401_UNAUTHORIZED;
         }
     }
 
