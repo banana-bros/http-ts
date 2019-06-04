@@ -1,6 +1,7 @@
 import { HTTPAction } from './helper/http_method/HTTPAction';
 import { Server } from '../Server';
 import { Request, Response } from 'express';
+import { onErrorResumeNext } from 'rxjs';
 
 export abstract class Controller<T> {
     public actions: HTTPAction[];
@@ -24,7 +25,9 @@ export abstract class Controller<T> {
             if (this.authenticatedActions.has(action.method)) {
                 serverMethod(action.path, (request: Request, response: Response) => {
                     if (server.isAuthenticated(request, response)) {
-                        return this[action.method](request, response);
+                        this[action.method](request, response);
+                    } else {
+                        response.send();
                     }
                 });
             } else {

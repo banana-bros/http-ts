@@ -28,7 +28,7 @@ export class JWTAuthenticator<T> extends Authenticator {
             statusCode = this.parseAuthorizationHeader(authorizationHeader);
         }
 
-        response.status(statusCode).send();
+        response.status(statusCode);
         return statusCode === HTTP_STATUS.CODE_200_OK;
     }
 
