@@ -55,7 +55,7 @@ class UserRepository extends Repository<User[]> {
 }
 ```
 
-The user controller which handles the user requests equipped with one GET-method:
+The user controller, which handles the user requests, equipped with different GET-methods:
 
 ``` typescript
 class UserController extends Controller<UserRepository> {
