@@ -1,11 +1,11 @@
 import { Subject } from 'rxjs';
+import { first } from 'rxjs/operators';
 import * as express from 'express';
 import { Controller } from './controller/Controller';
 import bodyParser = require('body-parser');
 import { Exception } from 'handlebars';
 import { Authenticator, NoAuthenticator } from './authenticator';
 import * as winston from 'winston';
-import { first } from 'rxjs/operators';
 
 const defaultLogger: winston.Logger = winston.createLogger({
     format: winston.format.cli(),
@@ -79,7 +79,8 @@ export abstract class Server<T> {
 
         if (path) {
             this.express.post(this.authenticator.getPath(), (request: express.Request, response: express.Response) => {
-                this.authenticator.authenticate(request, response);
+                const httpResponse = this.authenticator.authenticate(request, response);
+                httpResponse.sendResponse(response);
             });
 
             this.logger.info(`${message} registered`);
@@ -88,7 +89,7 @@ export abstract class Server<T> {
         }
     }
 
-    public isAuthenticated(request: express.Request, response: express.Response) {
+    public isAuthenticated(request: express.Request, response: express.Response): boolean {
         return this.authenticator.isAuthenticated(request, response);
     }
 

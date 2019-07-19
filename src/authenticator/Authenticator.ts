@@ -1,4 +1,5 @@
 import { Response, Request } from 'express';
+import { HTTPResponse } from 'src/controller/helper/HTTPResponse';
 
 export abstract class Authenticator {
     protected path: string;
@@ -12,6 +13,6 @@ export abstract class Authenticator {
     }
 
     public abstract isAuthenticated(request: Request, response: Response): boolean;
-    public abstract authenticate(request: Request, response: Response): void;
+    public abstract authenticate(request: Request, response: Response): HTTPResponse;
     public abstract unauthenticate(request: Request, response: Response): void;
 }
