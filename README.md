@@ -32,9 +32,8 @@ npm install @alkocats/http-ts
 All relevant imports for a minimal setup:
 
 ``` typescript
-import { Request, Response } from 'express';
-import { of } from 'rxjs';
 import { Repository, Controller, HTTPGet, HTTPServer, HTTPForbiddenError } from '@alkocats/http-ts';
+import { Request, Response } from 'express';
 ```
 
 The user interface for the user repository:
@@ -50,7 +49,9 @@ The user repository for the stored data the controller uses:
 
 ``` typescript
 class UserRepository extends Repository<User[]> {
-
+    public async getAsyncData(): Promise<User[]> {
+        return this.data;
+    }
 }
 ```
 
@@ -71,9 +72,7 @@ class UserController extends Controller<UserRepository> {
      */
     @HTTPGet('/async-users')
     public async getAsyncUsers(): Promise<HTTPResponse> {
-        const data = await of(this.repository.getData()).toPromise();
-
-        return new HTTPResponse(data);
+        return new HTTPResponse(await this.repository.getAsyncData());
     }
 
     /**
