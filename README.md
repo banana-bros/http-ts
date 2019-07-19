@@ -10,14 +10,14 @@ Status](https://travis-ci.org/alkocats/http-ts.svg?branch=master)](https://travi
 [![dependencies Status](https://david-dm.org/alkocats/http-ts/status.svg)](https://david-dm.org/alkocats/http-ts)
 [![devDependencies Status](https://david-dm.org/alkocats/http-ts/dev-status.svg)](https://david-dm.org/alkocats/http-ts?type=dev) [![Greenkeeper badge](https://badges.greenkeeper.io/alkocats/http-ts.svg)](https://greenkeeper.io/)
 
-- [Installation](#installation)
-- [Usage](#usage)
-  - [Example](#example)
-- [API](#api)
-  - [Supported HTTP methods](#supported-http-methods)
-- [Contributing](#contributing)
-- [Credits](#credits)
-- [License](#license)
+- [Installation](#Installation)
+- [Usage](#Usage)
+  - [Example](#Example)
+- [API](#API)
+  - [Supported HTTP methods](#Supported-HTTP-methods)
+- [Contributing](#Contributing)
+- [Credits](#Credits)
+- [License](#License)
 
 ## Installation
 
@@ -33,7 +33,8 @@ All relevant imports for a minimal setup:
 
 ``` typescript
 import { Request, Response } from 'express';
-import { Repository, Controller, HTTPGet, HTTPServer } from '@alkocats/http-ts';
+import { of } from 'rxjs';
+import { Repository, Controller, HTTPGet, HTTPServer, HTTPForbiddenError } from '@alkocats/http-ts';
 ```
 
 The user interface for the user repository:
@@ -50,12 +51,6 @@ The user repository for the stored data the controller uses:
 ``` typescript
 class UserRepository extends Repository<User[]> {
 
-    constructor() {
-        super([{
-            name: 'adam',
-            password: 'password1'
-        }]);
-    }
 }
 ```
 
@@ -63,11 +58,33 @@ The user controller which handles the user requests equipped with one GET-method
 
 ``` typescript
 class UserController extends Controller<UserRepository> {
-
+    /**
+     * Define a GET-method for the url /users.
+     */
     @HTTPGet('/users')
-    public getUsers(request: Request, response: Response): void {
-        console.log('Request: %s %s ', request.method, request.url);
-        response.json(this.repository.getData());
+    public getUsers(): HTTPResponse {
+        return new HTTPResponse(this.repository.getData());
+    }
+
+    /**
+     * Define a asynchronous GET-method for the url /async-users.
+     */
+    @HTTPGet('/async-users')
+    public async getAsyncUsers(): Promise<HTTPResponse> {
+        const data = await of(this.repository.getData()).toPromise();
+
+        return new HTTPResponse(data);
+    }
+
+    /**
+     * Define a GET-method for the url /faulty-users which throws a HTTP error.
+     * None HTTP errors are automatically transformed to HTTP 500 error.
+     */
+    @HTTPGet('/faulty-method')
+    public faultyMethod(): HTTPResponse {
+        throw new HTTPForbiddenError();
+
+        return null;
     }
 }
 ```
@@ -75,8 +92,13 @@ class UserController extends Controller<UserRepository> {
 Bringing it all together:
 
 ``` typescript
-const httpServer = new HTTPServer(80);
-const userController = new UserController(new UserRepository());
+const userRepository = new UserRepository([{
+    name: 'admin',
+    password: 'the-cake-is-a-lie'
+}]);
+const userController = new UserController(userRepository);
+
+const httpServer = new HTTPServer();
 httpServer.registerController(userController);
 httpServer.start();
 ```

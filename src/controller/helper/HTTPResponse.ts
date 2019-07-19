@@ -12,6 +12,11 @@ export class HTTPResponse {
 
     public sendResponse(response: Response) {
         response.status(this.code);
-        response.json(this.content);
+
+        if (this.content == null) {
+            response.send();
+        } else {
+            response.json(this.content);
+        }
     }
 }

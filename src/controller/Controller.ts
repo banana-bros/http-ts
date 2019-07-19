@@ -71,14 +71,20 @@ export abstract class Controller<T> {
         });
     }
 
-    private handleRequest(server: Server<any>, response: Response, requestFn: () => any): void {
-        let httpResponse: HTTPResponse;
+    private async handleRequest(server: Server<any>, response: Response, requestFn: () => any): Promise<void> {
+        let httpResponse: HTTPResponse = new HTTPResponse();
 
         try {
             let res = requestFn();
 
             if (res instanceof HTTPResponse) {
                 httpResponse = res;
+            } else if (res instanceof Promise) {
+                res = await res;
+
+                if (res instanceof HTTPResponse) {
+                    httpResponse = res;
+                }
             }
         } catch (error) {
             this.handleRequestError(server, error, httpResponse);
@@ -90,6 +96,7 @@ export abstract class Controller<T> {
     }
 
     private handleRequestError(server: Server<any>, error: Error, httpResponse: HTTPResponse): void {
+        console.log(error);
         if (!(error instanceof HTTPError)) {
             const stack = error.stack;
             error = new HTTPInternalServerError();
@@ -99,6 +106,6 @@ export abstract class Controller<T> {
         server.logger.error(error);
 
         httpResponse.code = (error as HTTPError).code;
-        httpResponse.content = error.message;
+        httpResponse.content = null;
     }
 }

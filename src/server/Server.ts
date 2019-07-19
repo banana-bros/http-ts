@@ -72,6 +72,10 @@ export abstract class Server<T> {
         this._express.use(bodyParser.json());
         this._express.use(bodyParser.urlencoded({ extended: true }));
 
+        this.onError.subscribe((error: Error) => {
+            this._logger.error(error);
+        });
+
         this.createServer();
         this.registerAuthorization();
         this.startListening();
