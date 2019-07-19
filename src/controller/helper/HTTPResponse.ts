@@ -1,4 +1,4 @@
-import { HTTP_STATUS } from 'src/enum';
+import { HTTP_STATUS } from '../../enum';
 import { Response } from 'express';
 
 export class HTTPResponse {

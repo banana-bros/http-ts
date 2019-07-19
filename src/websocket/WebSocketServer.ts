@@ -1,8 +1,8 @@
 import * as WebSocket from 'ws';
 import { IncomingMessage } from 'http';
 import { Subject } from 'rxjs';
-import { Server } from '../Server';
-import { HTTPServer } from '../HTTPServer';
+import { Server } from '../server/Server';
+import { HTTPServer } from '../http/HTTPServer';
 
 export class WebSocketServer extends Server<WebSocket.Server> {
     public onListening: Subject<null> = new Subject();
@@ -14,7 +14,7 @@ export class WebSocketServer extends Server<WebSocket.Server> {
         this.httpServer = new HTTPServer(this.port);
 
         this.wsServer = new WebSocket.Server({
-            server: this.httpServer.getServer()
+            server: this.httpServer.server
         });
 
         this.wsServer.on('listening', () => this.onListening.next());

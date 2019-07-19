@@ -1,7 +1,6 @@
 import * as https from 'https';
-import { SecureServer } from './SecureServer';
-import { Authenticator, NoAuthenticator } from './authenticator';
-import { first } from 'rxjs/operators';
+import { SecureServer } from '../server/SecureServer';
+import { Authenticator, NoAuthenticator } from '../authenticator';
 import * as winston from 'winston';
 
 export class HTTPSServer extends SecureServer<https.Server> {
@@ -17,7 +16,7 @@ export class HTTPSServer extends SecureServer<https.Server> {
     }
 
     protected createServer(): void {
-        this.server = https.createServer({
+        this._server = https.createServer({
             cert: this.certificate,
             key: this.key,
             rejectUnauthorized: false,
@@ -27,10 +26,10 @@ export class HTTPSServer extends SecureServer<https.Server> {
     }
 
     public start(): void {
-        this.server.listen(this.port);
+        this._server.listen(this.port);
     }
 
     public stop(): void {
-        this.server.close();
+        this._server.close();
     }
 }

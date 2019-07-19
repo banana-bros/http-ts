@@ -3,7 +3,7 @@ import * as jwt from 'jsonwebtoken';
 import { Request, Response } from 'express';
 import * as bcrypt from 'bcrypt';
 import { Repository } from '../repository/Repository';
-import { HTTPResponse } from 'src/controller/helper/HTTPResponse';
+import { HTTPResponse } from '../controller/helper/HTTPResponse';
 
 export interface JWTAuthenticatorOptions<T> {
     repository: Repository<T[]>;

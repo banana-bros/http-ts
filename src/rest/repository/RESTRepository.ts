@@ -1,4 +1,4 @@
-import { Repository } from 'src/repository';
+import { Repository } from '../../repository';
 import { RESTModel } from '../model/RESTModel';
 
 export class RESTRepository extends Repository<RESTModel[]> {

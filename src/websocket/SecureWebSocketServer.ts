@@ -1,8 +1,8 @@
 import * as WebSocket from 'ws';
 import { IncomingMessage } from 'http';
 import { Subject } from 'rxjs';
-import { HTTPSServer } from '../HTTPSServer';
-import { SecureServer } from '../SecureServer';
+import { HTTPSServer } from '../http/HTTPSServer';
+import { SecureServer } from '../server/SecureServer';
 
 export class SecureWebSocketServer extends SecureServer<WebSocket.Server> {
     public onListening: Subject<null> = new Subject();
@@ -14,7 +14,7 @@ export class SecureWebSocketServer extends SecureServer<WebSocket.Server> {
         this.httpsServer = new HTTPSServer(this.port, this.certificate, this.key);
 
         this.wssServer = new WebSocket.Server({
-            server: this.httpsServer.getServer()
+            server: this.httpsServer.server
         });
 
         this.wssServer.on('listening', () => this.onListening.next());

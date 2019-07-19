@@ -1,4 +1,4 @@
-import { Controller, HTTPGet } from 'src/controller';
+import { Controller, HTTPGet } from '../../controller';
 import { RESTRepository } from '../repository/RESTRepository';
 import { Response, Request } from 'express';
 

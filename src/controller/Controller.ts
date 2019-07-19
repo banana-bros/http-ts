@@ -1,9 +1,9 @@
 import { HTTPAction } from './helper/http_method/HTTPAction';
-import { Server } from '../Server';
+import { Server } from '../server/Server';
 import { Request, Response, RequestHandler } from 'express';
-import { HTTPError } from 'src/error/http-error/HTTPError';
-import { HTTPInternalServerError } from 'src/error/http-error/HTTPInternalServerError';
-import { HTTPUnauthorizedError } from 'src/error/http-error/HTTPUnauthorizedError';
+import { HTTPError } from '../error/http-error/HTTPError';
+import { HTTPInternalServerError } from '../error/http-error/HTTPInternalServerError';
+import { HTTPUnauthorizedError } from '../error/http-error/HTTPUnauthorizedError';
 import { HTTPResponse } from './helper/HTTPResponse';
 
 export abstract class Controller<T> {
@@ -56,7 +56,7 @@ export abstract class Controller<T> {
     }
 
     private handleAuthenticatedRequest(action: HTTPAction, server: Server<any>, request: Request, response: Response): void {
-        this.handleRequest(response, () => {
+        this.handleRequest(server, response, () => {
             if (server.isAuthenticated(request, response)) {
                 return this[action.method](request, response);
             } else {
@@ -66,12 +66,12 @@ export abstract class Controller<T> {
     }
 
     private handleUnauthenticatedRequest(action: HTTPAction, server: Server<any>, request: Request, response: Response): void {
-        this.handleRequest(response, () => {
+        this.handleRequest(server, response, () => {
             return this[action.method](request, response);
         });
     }
 
-    private handleRequest(response: Response, requestFn: () => any): void {
+    private handleRequest(server: Server<any>, response: Response, requestFn: () => any): void {
         let httpResponse: HTTPResponse;
 
         try {
@@ -81,7 +81,7 @@ export abstract class Controller<T> {
                 httpResponse = res;
             }
         } catch (error) {
-            this.handleRequestError(error, httpResponse);
+            this.handleRequestError(server, error, httpResponse);
         } finally {
             if (httpResponse) {
                 httpResponse.sendResponse(response);
@@ -89,14 +89,14 @@ export abstract class Controller<T> {
         }
     }
 
-    private handleRequestError(error: Error, httpResponse: HTTPResponse): void {
+    private handleRequestError(server: Server<any>, error: Error, httpResponse: HTTPResponse): void {
         if (!(error instanceof HTTPError)) {
             const stack = error.stack;
             error = new HTTPInternalServerError();
             error.stack = stack;
         }
 
-        console.error(error);
+        server.logger.error(error);
 
         httpResponse.code = (error as HTTPError).code;
         httpResponse.content = error.message;

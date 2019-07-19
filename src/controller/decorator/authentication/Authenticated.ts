@@ -1,4 +1,4 @@
-import { Controller } from 'src/controller/Controller';
+import { Controller } from '../../../controller/Controller';
 
 export function Authenticated(): Function {
     return function (target: Controller<any>, propertyKey: string, descriptor: PropertyDescriptor) {
