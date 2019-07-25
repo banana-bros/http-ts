@@ -10,14 +10,14 @@ Status](https://travis-ci.org/alkocats/http-ts.svg?branch=master)](https://travi
 [![dependencies Status](https://david-dm.org/alkocats/http-ts/status.svg)](https://david-dm.org/alkocats/http-ts)
 [![devDependencies Status](https://david-dm.org/alkocats/http-ts/dev-status.svg)](https://david-dm.org/alkocats/http-ts?type=dev) [![Greenkeeper badge](https://badges.greenkeeper.io/alkocats/http-ts.svg)](https://greenkeeper.io/)
 
-- [Installation](#Installation)
-- [Usage](#Usage)
-  - [Example](#Example)
-- [API](#API)
-  - [Supported HTTP methods](#Supported-HTTP-methods)
-- [Contributing](#Contributing)
-- [Credits](#Credits)
-- [License](#License)
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Example](#example)
+- [API](#api)
+  - [Supported HTTP methods](#supported-http-methods)
+- [Contributing](#contributing)
+- [Credits](#credits)
+- [License](#license)
 
 ## Installation
 
@@ -32,7 +32,7 @@ npm install @alkocats/http-ts
 All relevant imports for a minimal setup:
 
 ``` typescript
-import { Repository, Controller, HTTPGet, HTTPServer, HTTPForbiddenError } from '@alkocats/http-ts';
+import { Repository, Controller, HTTPGet, HTTPServer, HTTPForbiddenError, HTTP_STATUS } from '@alkocats/http-ts';
 import { Request, Response } from 'express';
 ```
 
@@ -63,16 +63,26 @@ class UserController extends Controller<UserRepository> {
      * Define a GET-method for the url /users.
      */
     @HTTPGet('/users')
-    public getUsers(): HTTPResponse {
-        return new HTTPResponse(this.repository.getData());
+    public getUsers(): User[] {
+        return this.repository.getData();
     }
 
     /**
      * Define a asynchronous GET-method for the url /async-users.
      */
     @HTTPGet('/async-users')
-    public async getAsyncUsers(): Promise<HTTPResponse> {
-        return new HTTPResponse(await this.repository.getAsyncData());
+    public async getAsyncUsers(): Promise<User[]> {
+        return await this.repository.getAsyncData();
+    }
+
+    /**
+     * Define a asynchronous GET-method for the url /async-users-with-http-response and a custom http code
+     */
+    @HTTPGet ('/async-users-with-http-response')
+    public async getAsyncUsersWithHTTPResponse(): Promise<HTTPResponse> {
+        const data = await this.repository.getAsyncData();
+
+        return new HTTPResponse(data, HTTP_STATUS.CODE_202_ACCEPTED);
     }
 
     /**
@@ -125,6 +135,8 @@ httpServer.start();
 `@HTTPConnect(path: string)`
 
 ## Contributing
+
+Feel free to create branches or pull requests.
 
 ## Credits
 
