@@ -16,8 +16,6 @@ Status](https://travis-ci.org/alkocats/http-ts.svg?branch=master)](https://travi
 - [API](#api)
   - [Supported HTTP methods](#supported-http-methods)
 - [Contributing](#contributing)
-- [Credits](#credits)
-- [License](#license)
 
 ## Installation
 
@@ -137,7 +135,3 @@ httpServer.start();
 ## Contributing
 
 Feel free to create branches or pull requests.
-
-## Credits
-
-## License
