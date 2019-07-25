@@ -9,6 +9,17 @@ export * from './repository/index';
 export * from './server/index';
 export * from './websocket/index';
 import * as jwt from 'jsonwebtoken';
+import * as bcrypt from 'bcrypt';
+
+
+/*bcrypt.hash('the-cake-is-a-lie', 10, function(err, hash) {
+    console.log(hash);
+
+    console.log(
+        bcrypt.compareSync('the-cake-is-a-lie', hash)
+    );
+    // Store hash in your password DB.
+});*/
 
 /*
 import { JWTAuthenticator } from './authenticator';
