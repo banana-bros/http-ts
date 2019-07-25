@@ -10,7 +10,6 @@ export interface JWTAuthenticatorOptions<T> {
     identificationKey: keyof T;
     passwordKey: keyof T;
     secret: string;
-    path?: string;
 }
 
 export class JWTAuthenticator<T> extends Authenticator {
@@ -68,7 +67,9 @@ export class JWTAuthenticator<T> extends Authenticator {
     private getLoginToken(request: Request, response: Response): string {
         const identification = request.body[this.options.identificationKey];
         const password = request.body[this.options.passwordKey];
+        console.log(password);
         const foundUser = this.options.repository.getData().find(user => user[this.options.identificationKey] === identification);
+        console.log(foundUser);
 
         if (!foundUser) {
             return null;

@@ -32,27 +32,19 @@ export abstract class Controller<T> {
 
     protected registerAction(action: HTTPAction, server: Server<any>,
         serverMethod: (path: string, ...handlers: RequestHandler[]) => void): void {
+        let method: (request: Request, response: Response) => void;
 
         if (this.authenticatedActions.has(action.method)) {
-            this.addAuthenticatedServermethod(action, server, serverMethod);
+            method = (request: Request, response: Response) => {
+                this.handleAuthenticatedRequest(action, server, request, response);
+            };
         } else {
-            this.addUnauthenticatedServermethod(action, server, serverMethod);
+            method = (request: Request, response: Response) => {
+                this.handleUnauthenticatedRequest(action, server, request, response);
+            };
         }
-    }
 
-    private addAuthenticatedServermethod(action: HTTPAction, server: Server<any>,
-        serverMethod: (path: string, ...handlers: RequestHandler[]) => void): void {
-
-        serverMethod(action.path, (request: Request, response: Response) =>
-            this.handleAuthenticatedRequest(action, server, request, response)
-        );
-    }
-
-    private addUnauthenticatedServermethod(action: HTTPAction, server: Server<any>,
-        serverMethod: (path: string, ...handlers: RequestHandler[]) => void): void {
-
-        serverMethod(action.path, (request: Request, response: Response) =>
-            this.handleUnauthenticatedRequest(action, server, request, response) );
+        serverMethod(action.path, method);
     }
 
     private handleAuthenticatedRequest(action: HTTPAction, server: Server<any>, request: Request, response: Response): void {

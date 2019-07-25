@@ -13,6 +13,7 @@ Status](https://travis-ci.org/alkocats/http-ts.svg?branch=master)](https://travi
 - [Installation](#installation)
 - [Usage](#usage)
   - [Example](#example)
+  - [Authentication](#authentication)
 - [API](#api)
   - [Supported HTTP methods](#supported-http-methods)
 - [Contributing](#contributing)
@@ -109,6 +110,8 @@ const httpServer = new HTTPServer();
 httpServer.registerController(userController);
 httpServer.start();
 ```
+
+### Authentication
 
 ## API
 
