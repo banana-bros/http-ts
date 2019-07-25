@@ -3,54 +3,55 @@ import * as jwt from 'jsonwebtoken';
 import { Request, Response } from 'express';
 import * as bcrypt from 'bcrypt';
 import { Repository } from '../repository/Repository';
-import { HTTP_STATUS } from '../enum/HTTP_STATUS';
+import { HTTPResponse } from '../controller/helper/HTTPResponse';
+
+export interface JWTAuthenticatorOptions<T> {
+    repository: Repository<T[]>;
+    identificationKey: keyof T;
+    passwordKey: keyof T;
+    secret: string;
+    path?: string;
+}
 
 export class JWTAuthenticator<T> extends Authenticator {
-    private repository: Repository<T[]>;
-    private identificationKey: keyof T;
-    private passwordKey: keyof T;
-    private secret: string;
+    private options: JWTAuthenticatorOptions<T>;
 
-    constructor(repository: Repository<T[]>, identificationKey: keyof T, passwordKey: keyof T, secret: string, path?: string) {
+    constructor(path: string, options: JWTAuthenticatorOptions<T>) {
         super(path);
 
-        this.repository = repository;
-        this.identificationKey = identificationKey;
-        this.passwordKey = passwordKey;
-        this.secret = secret;
+        this.options = options;
     }
 
     public isAuthenticated(request: Request, response: Response): boolean {
         const authorizationHeader = request.headers['authorization'] as string;
-        let statusCode = HTTP_STATUS.CODE_401_UNAUTHORIZED;
+        let isAuthenticated = false;
 
         if (authorizationHeader) {
-            statusCode = this.parseAuthorizationHeader(authorizationHeader);
+            isAuthenticated = this.parseAuthorizationHeader(authorizationHeader);
         }
 
-        response.status(statusCode);
-        return statusCode === HTTP_STATUS.CODE_200_OK;
+        return isAuthenticated;
     }
 
-    private parseAuthorizationHeader(authorizationHeader: string) {
+    private parseAuthorizationHeader(authorizationHeader: string): boolean {
         try {
             const authorization = authorizationHeader.split(' ');
             return this.checkAuthorizationBearer(authorization);
         } catch (err) {
-            return HTTP_STATUS.CODE_403_FORBIDDEN;
+            return false;
         }
     }
 
-    private checkAuthorizationBearer(authorization: string[]): number {
+    private checkAuthorizationBearer(authorization: string[]): boolean {
         if (authorization[0] === 'Bearer') {
-            jwt.verify(authorization[1], this.secret);
-            return HTTP_STATUS.CODE_200_OK;
+            jwt.verify(authorization[1], this.options.secret);
+            return true;
         } else {
-            return HTTP_STATUS.CODE_401_UNAUTHORIZED;
+            return false;
         }
     }
 
-    public authenticate(request: Request, response: Response): void {
+    public authenticate(request: Request, response: Response): HTTPResponse {
         const loginToken = this.getLoginToken(request, response);
         const result = {
             auth: (loginToken != null),
@@ -58,28 +59,28 @@ export class JWTAuthenticator<T> extends Authenticator {
         };
 
         if (result.auth) {
-            response.status(HTTP_STATUS.CODE_200_OK).json(result);
+            return new HTTPResponse(result);
         } else {
-            response.status(HTTP_STATUS.CODE_401_UNAUTHORIZED).json(result);
+            return new HTTPResponse(result, 401);
         }
     }
 
     private getLoginToken(request: Request, response: Response): string {
-        const identification = request.body[this.identificationKey];
-        const password = request.body[this.passwordKey];
-        const foundUser = this.repository.getData().find(user => user[this.identificationKey] === identification);
+        const identification = request.body[this.options.identificationKey];
+        const password = request.body[this.options.passwordKey];
+        const foundUser = this.options.repository.getData().find(user => user[this.options.identificationKey] === identification);
 
         if (!foundUser) {
             return null;
         }
 
-        const passwordIsValid = bcrypt.compareSync(password, foundUser[this.passwordKey].toString());
+        const passwordIsValid = bcrypt.compareSync(password, foundUser[this.options.passwordKey].toString());
 
         if (!passwordIsValid) {
             return null;
         }
 
-        const token = jwt.sign({ identification: identification }, this.secret, {
+        const token = jwt.sign({ identification: identification }, this.options.secret, {
             expiresIn: 86400 // expires in 24 hours
         });
 
