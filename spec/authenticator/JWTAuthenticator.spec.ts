@@ -14,7 +14,8 @@ describe('JWTAuthenticator', () => {
             identificationKey: 'id',
             passwordKey: 'password',
             repository: new Repository<User[]>([]),
-            secret: 'some-secret'
+            secret: 'some-secret',
+            expiresIn: 86400
         });
     });
 

@@ -13,7 +13,7 @@ Status](https://travis-ci.org/alkocats/http-ts.svg?branch=master)](https://travi
 - [Installation](#installation)
 - [Usage](#usage)
   - [Example](#example)
-  - [Authentication](#authentication)
+  - [Basic JWT / bcrypt Authentication](#basic-jwt--bcrypt-authentication)
 - [API](#api)
   - [Supported HTTP methods](#supported-http-methods)
 - [Contributing](#contributing)
@@ -111,7 +111,133 @@ httpServer.registerController(userController);
 httpServer.start();
 ```
 
-### Authentication
+### Basic JWT / bcrypt Authentication
+
+All relevant imports for a minimal setup:
+
+``` typescript
+import * as bcrypt from 'bcrypt';
+import { JWTAuthenticator, Repository, HTTPServer, Controller, HTTPGet, Authenticated } from './authenticator';
+```
+
+The user interface for the user repository:
+
+``` typescript
+interface User {
+    email: string;
+    password: string;
+}
+```
+
+The data interface for the data repository:
+
+``` typescript
+interface Data {
+    foo: number;
+    bar: string;
+}
+```
+
+The data repository for the stored data the controller uses:
+
+``` typescript
+class DataRepository extends Repository<Data[]> {
+    public getSecretData(): Data[] {
+        return [{
+            foo: 0,
+            bar: 'top secret'
+        }];
+    }
+}
+
+const dataRepository = new DataRepository([{
+    foo: 1,
+    bar: 'no secret data'
+}]);
+```
+
+The data controller, which handles all data requests.
+
+``` typescript
+class DataController extends Controller<DataRepository> {
+    /**
+     * A unauthaenticated get method which can be called by everyone
+     */
+    @HTTPGet('/data')
+    public getDataUnauthenticated() {
+        return this.repository.getData();
+    }
+
+    /**
+     * An authenticated get method, which can only be called by authenticated
+     * users who deliver a valid bearer token.
+     */
+    @Authenticated()
+    @HTTPGet('/data-authenticated')
+    public getDataAuthenticated(): Data[] {
+        return this.repository.getSecretData();
+    }
+}
+
+const dataController = new DataController(dataRepository);
+```
+
+Bringing it all together:
+
+``` typescript
+async function main() {
+    // To login with a valid password, the password needs to be hashed with bcrypt
+    const hashedPassword = await bcrypt.hash('the-cake-is-a-lie', 10);
+
+    // This repository is used by the JWTAuthenticator and contains all valid logins.
+    const userRepository = new Repository<User[]>([{
+        email: 'alkocats.info@gmail.com',
+        password: hashedPassword
+    }]);
+
+    // The secret for JWTAuthenticator to use for encryption / decryption.
+    const secret = 'some-secret';
+
+    /**
+     * The path '/auth' defines, where to make a post with email / password
+     * as a json object to obtain a valid bearer token.
+     * The token then can be used to access @Authenticated methods of the
+     * registered controllers.
+     */
+    const authenticator = new JWTAuthenticator<User>('/auth', {
+        // Defines the repository with all the valid logins
+        repository: userRepository,
+        // Defines, which field of the repository data is used for identification
+        identificationKey: 'email',
+        // Defines, in which field of the repository data the hashed password is stored
+        passwordKey: 'password',
+        // Defines the expiration time of generated tokens (still valid after restart of server)
+        expiresIn: 86400,
+        // Defines the secret JWT uses to encrypt / decrypt the generated tokens.
+        secret: secret
+    });
+
+    const httpServer = new HTTPServer(80, authenticator);
+
+    httpServer.registerController(dataController);
+    httpServer.start();
+}
+
+main();
+```
+
+After everything is implemented, a post to http://localhost/auth with the json data
+
+``` json
+{
+    "email": "alkocats.info@gmail.com",
+    "password": "the-cake-is-a-lie"
+}
+```
+
+generates a bearer token, wich can be used in future requests to access @Authenticated methods of the registered controllers.
+
+Alternatively a custom Authenticater can be created by creating a class which extends Authenticator.
 
 ## API
 
