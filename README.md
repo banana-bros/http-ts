@@ -8,7 +8,7 @@ Status](https://travis-ci.org/alkocats/http-ts.svg?branch=master)](https://travi
 [![MIT License](https://img.shields.io/github/license/alkocats/http-ts.svg)](https://github.com/alkocats/http-ts/blob/master/LICENSE)
 [![Known Vulnerabilities](https://snyk.io/test/github/alkocats/http-ts/badge.svg)](https://snyk.io/test/github/alkocats/http-ts)
 [![dependencies Status](https://david-dm.org/alkocats/http-ts/status.svg)](https://david-dm.org/alkocats/http-ts)
-[![devDependencies Status](https://david-dm.org/alkocats/http-ts/dev-status.svg)](https://david-dm.org/alkocats/http-ts?type=dev) [![Greenkeeper badge](https://badges.greenkeeper.io/alkocats/http-ts.svg)](https://greenkeeper.io/)
+[![devDependencies Status](https://david-dm.org/alkocats/http-ts/dev-status.svg)](https://david-dm.org/alkocats/http-ts?type=dev)
 
 - [Installation](#installation)
 - [Usage](#usage)
