@@ -14,7 +14,7 @@ export class HTTPResponse {
         response.status(this.code);
 
         if (this.content == null) {
-            response.send();
+            // response.send();
         } else {
             response.json(this.content);
         }
