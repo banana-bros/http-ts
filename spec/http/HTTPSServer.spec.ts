@@ -5,7 +5,7 @@ describe('HTTPSServer', () => {
     let httpsServer: HTTPSServer;
 
     beforeEach(() => {
-        httpsServer = new HTTPSServer(110, 'certs/server.crt', 'certs/server.key');
+        httpsServer = new HTTPSServer('certs/server.crt', 'certs/server.key', 110);
     });
 
     it('should be created', () => {

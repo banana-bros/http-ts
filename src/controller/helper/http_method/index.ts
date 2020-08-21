@@ -3,7 +3,6 @@ export * from './HTTPConnectAction';
 export * from './HTTPDeleteAction';
 export * from './HTTPGetAction';
 export * from './HTTPHeadAction';
-export * from './HTTPOptionsAction';
 export * from './HTTPPatchAction';
 export * from './HTTPPostAction';
 export * from './HTTPPutAction';

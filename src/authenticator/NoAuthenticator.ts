@@ -4,10 +4,6 @@ import { Request, Response } from 'express';
 import { Server } from '../server/Server';
 
 export class NoAuthenticator extends Authenticator {
-    constructor() {
-        super('');
-    }
-
     public isAuthenticated(request: Request, response: Response): boolean {
         return true;
     }
@@ -21,6 +17,6 @@ export class NoAuthenticator extends Authenticator {
     }
 
     public registerServer(server: Server<any>): void {
-        server.logger.info(`${server.constructor.name}: ${this.constructor.name} skipped registration`);
+        server.getLogger().info(`${server.constructor.name}: ${this.constructor.name} skipped registration`);
     }
 }

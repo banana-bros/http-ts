@@ -1,79 +1,46 @@
 import { Subject } from 'rxjs';
 import { first } from 'rxjs/operators';
 import * as express from 'express';
+import { Express, Request, Response } from 'express';
 import { Controller } from '../controller/Controller';
-import bodyParser = require('body-parser');
+import * as bodyParser from 'body-parser';
 import { Authenticator, NoAuthenticator } from '../authenticator';
 import * as winston from 'winston';
+import { Logger, format, transports } from 'winston';
 
-const defaultLogger: winston.Logger = winston.createLogger({
-    format: winston.format.cli(),
+const defaultLogger: Logger = winston.createLogger({
+    format: format.cli(),
     transports: [
-        new winston.transports.Console()
+        new transports.Console()
     ]
 });
 
 export abstract class Server<T> {
-    public onClose: Subject<null> = new Subject();
-    public onConnection: Subject<null> = new Subject();
-    public onError: Subject<Error> = new Subject();
-    public onListen: Subject<null> = new Subject();
+    public closed: Subject<null> = new Subject();
+    public connected: Subject<null> = new Subject();
+    public error: Subject<Error> = new Subject();
+    public listening: Subject<null> = new Subject();
 
-    protected _running = false;
-    get running(): boolean {
-        return this._running;
-    }
-
-    protected _port: number;
-    get port(): number {
-        return this._port;
-    }
-    set port(port: number) {
-        if (this._running) {
-            throw Error('Unable to set port as server is still running');
-        }
-        this._port = port;
-    }
-
-    protected _logger: winston.Logger;
-    get logger(): winston.Logger {
-        return this._logger;
-    }
-    set logger(logger: winston.Logger) {
-        this._logger = logger;
-    }
-
-    protected _authenticator: Authenticator;
-    get authenticator(): Authenticator {
-        return this._authenticator;
-    }
-    set authenticator(authenticator: Authenticator) {
-        this._authenticator = authenticator;
-    }
-
-    protected _express: express.Express;
-    get express(): express.Express {
-        return this._express;
-    }
-
-    protected _server: T;
-    get server(): T {
-        return this._server;
-    }
-
+    protected port: number;
+    protected logger: Logger;
+    protected authenticator: Authenticator;
+    protected express: Express;
+    protected server: T;
     protected controllers: Controller<any>[] = [];
 
-    constructor(port: number, authenticator: Authenticator = new NoAuthenticator(), logger: winston.Logger = defaultLogger) {
-        this._port = port;
-        this._authenticator = authenticator;
-        this._logger = logger;
+    private running = false;
 
-        this._express = express();
-        this._express.use(bodyParser.json());
-        this._express.use(bodyParser.urlencoded({ extended: true }));
+    constructor(port: number, authenticator: Authenticator = new NoAuthenticator(), logger: Logger = defaultLogger) {
+        this.port = port;
+        this.authenticator = authenticator;
+        this.logger = logger;
 
-        this.onError.subscribe((error: Error) => {
-            this._logger.error(error);
+        this.express = express();
+        this.express.use(bodyParser.json());
+        this.express.use(bodyParser.urlencoded({ extended: true }));
+
+        this.error.subscribe((error: Error) => {
+            this.logger.error(error);
         });
 
         this.createServer();
@@ -86,25 +53,24 @@ export abstract class Server<T> {
     protected abstract createServer(): void;
 
     protected startListening(): void {
-        this.onListen.subscribe(() => this._running = true);
-        this.onClose.subscribe(() => this._running = false);
+        this.listening.subscribe(() => this.running = true);
+        this.closed.subscribe(() => this.running = false);
 
-        this.onListen.pipe(
+        this.listening.pipe(
             first()
-        )
-        .subscribe(_ => this._logger.info(`${this.constructor.name}: Listening on port ${this.port}`));
-        this.onClose.pipe(
+        ).subscribe(_ => this.logger.info(`${this.constructor.name}: Listening on port ${this.port}`));
+
+        this.closed.pipe(
             first()
-        )
-        .subscribe(_ => this._logger.info(`${this.constructor.name}: Server closed`));
+        ).subscribe(_ => this.logger.info(`${this.constructor.name}: Server closed`));
     }
 
     protected registerAuthorization(): void {
-        this._authenticator.registerServer(this);
+        this.authenticator.registerServer(this);
     }
 
-    public isAuthenticated(request: express.Request, response: express.Response): boolean {
-        return this._authenticator.isAuthenticated(request, response);
+    public isAuthenticated(request: Request, response: Response): boolean {
+        return this.authenticator.isAuthenticated(request, response);
     }
 
     public registerController(controller: Controller<any>): Server<T> {
@@ -113,5 +79,44 @@ export abstract class Server<T> {
 
         this.logger.info(`${this.constructor.name}: ${controller.constructor.name} registered`);
         return this;
+    }
+
+    public getPort(): number {
+        return this.port;
+    }
+
+    public setPort(port: number) {
+        if (this.running) {
+            throw Error('Unable to set port as server is still running');
+        }
+        this.port = port;
+    }
+
+    public getAuthenticator(): Authenticator {
+        return this.authenticator;
+    }
+
+    public setAuthenticator(authenticator: Authenticator) {
+        this.authenticator = authenticator;
+    }
+
+    public getExpress(): Express {
+        return this.express;
+    }
+
+    public getServer(): T {
+        return this.server;
+    }
+
+    public getLogger(): Logger {
+        return this.logger;
+    }
+
+    public setLogger(logger: Logger): void {
+        this.logger = logger;
+    }
+
+    public isRunning(): boolean {
+        return this.running;
     }
 }

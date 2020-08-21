@@ -88,10 +88,10 @@ export abstract class Controller<T> {
     }
 
     private handleRequestError(server: Server<any>, error: Error): HTTPResponse {
-        server.logger.error(error.name);
+        server.getLogger().error(error.name);
 
         if (!(error instanceof HTTPError)) {
-            server.logger.error(error.stack);
+            server.getLogger().error(error.stack);
             const stack = error.stack;
             error = new HTTPInternalServerError();
             error.stack = stack;

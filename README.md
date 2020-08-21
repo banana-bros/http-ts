@@ -255,8 +255,6 @@ Alternatively a custom Authenticater can be created by creating a class which ex
 
 `@HTTPHead(path: string)`
 
-`@HTTPOptions(path: string)`
-
 `@HTTPTrace(path: string)`
 
 `@HTTPConnect(path: string)`

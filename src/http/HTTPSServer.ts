@@ -7,17 +7,17 @@ import { KeyObject } from 'tls';
 export class HTTPSServer extends SecureServer<https.Server> {
     protected httpsServer: https.Server;
 
-    constructor(port: number = 443,
-        certificate: string | Buffer | (string | Buffer)[],
+    constructor(certificate: string | Buffer | (string | Buffer)[],
         key: string | Buffer | (Buffer | KeyObject)[],
+        port: number = 443,
         authenticator: Authenticator = new NoAuthenticator(),
         logger?: winston.Logger) {
 
-        super(port, certificate, key, authenticator, logger);
+        super(certificate, key, port, authenticator, logger);
     }
 
     protected createServer(): void {
-        this._server = https.createServer({
+        this.server = https.createServer({
             cert: this.certificate,
             key: this.key,
             rejectUnauthorized: false,
@@ -27,10 +27,10 @@ export class HTTPSServer extends SecureServer<https.Server> {
     }
 
     public start(): void {
-        this._server.listen(this.port);
+        this.server.listen(this.port);
     }
 
     public stop(): void {
-        this._server.close();
+        this.server.close();
     }
 }

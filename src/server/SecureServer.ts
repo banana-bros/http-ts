@@ -3,37 +3,43 @@ import { Authenticator, NoAuthenticator } from '../authenticator';
 import * as winston from 'winston';
 import { KeyObject } from 'tls';
 
+type Certificate = string | Buffer | (string | Buffer)[];
+type Key = string | Buffer | (Buffer | KeyObject)[];
+
 export abstract class SecureServer<T> extends Server<T> {
-    protected _certificate: string | Buffer | (string | Buffer)[];
-    get certificate(): string | Buffer | (string | Buffer)[] {
-        return this._certificate;
-    }
-    set certificate(certificate: string | Buffer | (string | Buffer)[]) {
-        if (this._running) {
-            throw Error('Unable to set port as server is still running');
-        }
-        this._certificate = certificate;
-    }
+    protected certificate: Certificate;
+    protected key: Key;
 
-    protected _key: string | Buffer | (Buffer | KeyObject)[];
-    get key(): string | Buffer | (Buffer | KeyObject)[] {
-        if (this._running) {
-            throw Error('Unable to set port as server is still running');
-        }
-        return this._key;
-    }
-    set key(key: string | Buffer | (Buffer | KeyObject)[]) {
-        this._key = key;
-    }
-
-    constructor(port: number,
-        certificate: string | Buffer | (string | Buffer)[],
-        key: string | Buffer | (Buffer | KeyObject)[],
+    constructor(certificate: Certificate,
+        key: Key,
+        port: number,
         authenticator: Authenticator = new NoAuthenticator(),
         logger?: winston.Logger) {
 
         super(port, authenticator, logger);
-        this._certificate = certificate;
-        this._key = key;
+        this.certificate = certificate;
+        this.key = key;
+    }
+
+    public getCertificate(): Certificate {
+        return this.certificate;
+    }
+
+    public setCertificate(certificate: Certificate) {
+        if (this.isRunning()) {
+            throw Error('Unable to set certificate as server is still running');
+        }
+        this.certificate = certificate;
+    }
+
+    public getKey(): Key {
+        return this.key;
+    }
+
+    public setKey(key: Key) {
+        if (this.isRunning()) {
+            throw Error('Unable to set key as server is still running');
+        }
+        this.key = key;
     }
 }

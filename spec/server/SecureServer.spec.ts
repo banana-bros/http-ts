@@ -19,7 +19,7 @@ describe('SecureServer', () => {
     let secureServer: MockSecureServer;
 
     beforeEach(() => {
-        secureServer = new MockSecureServer(110, 'certs/server.crt', 'certs/server.key');
+        secureServer = new MockSecureServer('certs/server.crt', 'certs/server.key', 110);
     });
 
     it('should be created', () => {

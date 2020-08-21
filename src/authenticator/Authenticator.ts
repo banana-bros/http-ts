@@ -3,13 +3,10 @@ import { HTTPResponse } from '../controller/helper/HTTPResponse';
 import { Server } from '../server/Server';
 
 export abstract class Authenticator {
-    protected _path: string;
-    get path(): string {
-        return this._path;
-    }
+    protected path: string;
 
     constructor(path?: string) {
-        this._path = path;
+        this.path = path;
     }
 
     public abstract isAuthenticated(request: Request, response: Response): boolean;
@@ -19,16 +16,16 @@ export abstract class Authenticator {
     public registerServer(server: Server<any>): void {
         const message = `${server.constructor.name}: ${this.constructor.name}`;
 
-        if (!this._path) {
-            server.logger.warn(`${message} could not be registered (no path)`);
+        if (!this.path) {
+            server.getLogger().warn(`${message} could not be registered (no path)`);
             return;
         }
 
-        server.express.post(this._path, (request: Request, response: Response) => {
+        server.getExpress().post(this.path, (request: Request, response: Response) => {
             const httpResponse = this.authenticate(request, response);
             httpResponse.sendResponse(response);
         });
 
-        server.logger.info(`${message} registered`);
+        server.getLogger().info(`${message} registered`);
     }
 }

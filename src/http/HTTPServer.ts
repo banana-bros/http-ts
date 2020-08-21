@@ -11,21 +11,21 @@ export class HTTPServer extends Server<http.Server> {
     }
 
     protected createServer() {
-        this._server = http.createServer(this.express);
+        this.server = http.createServer(this.express);
 
-        this._server.on('close', () => this.onClose.next());
-        this._server.on('connection', () => this.onConnection.next());
-        this._server.on('error', (error: Error) => this.onError.next(error));
-        this._server.on('listening', () => this.onListen.next());
+        this.server.on('close', () => this.closed.next());
+        this.server.on('connection', () => this.connected.next());
+        this.server.on('error', (error: Error) => this.error.next(error));
+        this.server.on('listening', () => this.listening.next());
 
         this.logger.info(`${this.constructor.name}: Server created`);
     }
 
     public start(): void {
-        this._server.listen(this.port);
+        this.server.listen(this.port);
     }
 
     public stop(): void {
-        this._server.close();
+        this.server.close();
     }
 }

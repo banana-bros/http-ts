@@ -14,10 +14,10 @@ export abstract class HTTPAction {
     public getServerMethod(server: Server<any>): (path: string, ...handlers: RequestHandler[]) => void {
         const methodName = this.getMethodName();
 
-        if (!server.express || !server.express[methodName]) {
+        if (!server.getExpress() || !server.getExpress()[methodName]) {
             throw new Error(`Server Method ${methodName} not found`);
         }
-        return server.express[methodName].bind(server.express);
+        return server.getExpress()[methodName].bind(server.getExpress());
     }
 
     protected abstract getMethodName(): string;

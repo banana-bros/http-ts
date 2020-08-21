@@ -17,13 +17,7 @@
         "sourceMap": true,
         "declaration": true
     },
-    "include": [
-       "src"
-    ],
-    "exclude": [
-      "node_modules",
-      "build",
-      "spec"
-    ]
+    "include": [],
+    "exclude": []
  }
  
