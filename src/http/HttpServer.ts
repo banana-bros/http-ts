@@ -38,9 +38,9 @@ export class HttpServer extends Server<http.Server> {
     public setPermanentHeaders(headers: Map<string, string>): void {
         this.express.use((request: Request, response: Response, next: NextFunction) => {
             for (const key of headers.keys()) {
-                response.header(key, headers.get(key));    
+                response.header(key, headers.get(key));
             }
-            
+
             next();
         });
     }

@@ -18,7 +18,7 @@ export class HttpsServer extends SecureServer<https.Server> {
         logger?: winston.Logger) {
 
         super(certificate, key, port, authenticator, logger);
-        
+
         this.express = express();
         this.express.use(bodyParser.json());
         this.express.use(bodyParser.urlencoded({ extended: true }));
@@ -36,10 +36,10 @@ export class HttpsServer extends SecureServer<https.Server> {
 
     public setPermanentHeaders(headers: Map<string, string>): void {
         this.express.use((request: Request, response: Response, next: NextFunction) => {
-            for (const key in headers.keys()) {
-                response.header(key, headers.get(key));    
+            for (const key of headers.keys()) {
+                response.header(key, headers.get(key));
             }
-            
+
             next();
         });
     }
