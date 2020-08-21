@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { Controller, HttpResponse } from '../../src';
 import { RequestHandler, Request, Response } from 'express';
 
-class MockController extends Controller<any, any> {
+class MockController extends Controller<any, any, any> {
     public registerActions(server: any): void {}
     
     protected registerAction(action: any, server: any, serverMethod: (path: string, ...handlers: RequestHandler[]) => void): void {}
