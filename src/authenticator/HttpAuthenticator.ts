@@ -3,15 +3,15 @@ import { HttpServer } from 'src/http';
 import { Request, Response } from 'express';
 import { HttpResponse } from 'src/controller';
 
-export interface HttpAuthenticationOptions {
+export interface HttpRequestOptions {
     request: Request;
     response: Response;
 }
 
-export abstract class HttpAuthenticator extends Authenticator<HttpAuthenticationOptions, HttpResponse> {
-    public abstract isAuthenticated(options: HttpAuthenticationOptions): boolean;
-    public abstract authenticate(options: HttpAuthenticationOptions): HttpResponse;
-    public abstract unauthenticate(options: HttpAuthenticationOptions): void;
+export abstract class HttpAuthenticator extends Authenticator<HttpRequestOptions, HttpResponse> {
+    public abstract isAuthenticated(options: HttpRequestOptions): boolean;
+    public abstract authenticate(options: HttpRequestOptions): HttpResponse;
+    public abstract unauthenticate(options: HttpRequestOptions): void;
 
     public registerServer(httpServer: HttpServer): void {
         const message = `${httpServer.constructor.name}: ${this.constructor.name}`;
@@ -27,7 +27,7 @@ export abstract class HttpAuthenticator extends Authenticator<HttpAuthentication
                 response
             });
 
-            httpResponse.sendResponse(response);
+            httpResponse.sendResponse({ request, response });
         });
 
         httpServer.getLogger().info(`${message} registered`);

@@ -22,7 +22,7 @@ export abstract class Server<T> {
     protected logger: Logger;
     protected authenticator: Authenticator<any, any>;
     protected server: T;
-    protected controllers: Controller<any, any, any>[] = [];
+    protected controllers: Controller<any, any, any, any>[] = [];
 
     private running = false;
 
@@ -65,7 +65,7 @@ export abstract class Server<T> {
         return this.authenticator.isAuthenticated(options);
     }
 
-    public registerController(controller: Controller<any, any, any>): Server<T> {
+    public registerController(controller: Controller<any, any, any, any>): Server<T> {
         this.controllers.push(controller);
         controller.registerActions(this);
 

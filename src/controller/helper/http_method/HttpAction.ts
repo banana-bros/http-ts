@@ -1,13 +1,13 @@
 import { RequestHandler } from 'express';
 import { HttpServer } from 'src/http';
+import { Action } from '../Action';
 
-export abstract class HttpAction {
+export abstract class HttpAction extends Action {
     public path: string;
-    public method: string;
 
     constructor(path: string, method: string) {
+        super(method);
         this.path = path;
-        this.method = method;
     }
 
     public getServerMethod(httpServer: HttpServer): (path: string, ...handlers: RequestHandler[]) => void {

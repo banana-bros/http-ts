@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import * as bcrypt from 'bcrypt';
 import { HttpResponse } from '../controller/helper/HttpResponse';
 import { JwtAuthenticatorOptions } from './JwtAuthenticatorOptions';
-import { HttpAuthenticator, HttpAuthenticationOptions } from './HttpAuthenticator';
+import { HttpAuthenticator, HttpRequestOptions } from './HttpAuthenticator';
 
 export class JwtAuthenticator<T> extends HttpAuthenticator {
     private options: JwtAuthenticatorOptions<T>;
@@ -14,7 +14,7 @@ export class JwtAuthenticator<T> extends HttpAuthenticator {
         this.options = options;
     }
 
-    public isAuthenticated(options: HttpAuthenticationOptions): boolean {
+    public isAuthenticated(options: HttpRequestOptions): boolean {
         const authorizationHeader = options.request.headers['authorization'] as string;
         let isAuthenticated = false;
 
@@ -43,7 +43,7 @@ export class JwtAuthenticator<T> extends HttpAuthenticator {
         }
     }
 
-    public authenticate(options: HttpAuthenticationOptions): HttpResponse {
+    public authenticate(options: HttpRequestOptions): HttpResponse {
         const loginToken = this.getLoginToken(options.request, options.response);
         const result = {
             auth: (loginToken != null),
@@ -79,7 +79,7 @@ export class JwtAuthenticator<T> extends HttpAuthenticator {
         return token;
     }
 
-    public unauthenticate(options: HttpAuthenticationOptions): void {
+    public unauthenticate(options: HttpRequestOptions): void {
 
     }
 }
