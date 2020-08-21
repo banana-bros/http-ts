@@ -46,7 +46,7 @@ export class HttpServer extends Server<http.Server> {
         this.server.on('connection', () => this.connected.next());
         this.server.on('error', (error: Error) => this.error.next(error));
         this.server.on('listening', () => this.listening.next());
-        
+
         this.server.listen(this.port);
     }
 
