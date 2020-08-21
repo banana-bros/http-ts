@@ -25,21 +25,23 @@ export abstract class SecureServer<T> extends Server<T> {
         return this.certificate;
     }
 
-    public setCertificate(certificate: Certificate) {
-        if (this.isRunning()) {
-            throw Error('Unable to set certificate as server is still running');
-        }
-        this.certificate = certificate;
-    }
-
     public getKey(): Key {
         return this.key;
     }
 
+    public setCertificate(certificate: Certificate) {
+        this.isPropertyChangeAllowed('certificate');
+        this.certificate = certificate;
+    }
+
     public setKey(key: Key) {
-        if (this.isRunning()) {
-            throw Error('Unable to set key as server is still running');
-        }
+        this.isPropertyChangeAllowed('key');
         this.key = key;
+    }
+
+    protected isPropertyChangeAllowed(property: string): void {
+        if (this.isRunning()) {
+            throw Error(`Unable to change ${property} as server is still running`);
+        }
     }
 }
