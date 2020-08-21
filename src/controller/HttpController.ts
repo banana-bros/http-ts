@@ -5,22 +5,12 @@ import { HttpInternalServerError } from '../error/http-error/HttpInternalServerE
 import { HttpUnauthorizedError } from '../error/http-error/HttpUnauthorizedError';
 import { HttpResponse } from './helper/HttpResponse';
 import { HttpServer } from 'src/http';
+import { Controller } from './Controller';
+import { Repository } from 'src/repository';
 
-export abstract class HttpController<T> {
+export abstract class HttpController<R extends Repository> extends Controller<R, HttpServer, HttpAction> {
     public actions: HttpAction[];
     public authenticatedActions: Set<string>;
-
-    protected repository: T;
-
-    constructor(repository: T) {
-        this.repository = repository;
-        if (!this.actions) {
-            this.actions = [];
-        }
-        if (!this.authenticatedActions) {
-            this.authenticatedActions = new Set<string>();
-        }
-    }
 
     public registerActions(httpServer: HttpServer) {
         for (const action of this.actions) {
@@ -47,7 +37,7 @@ export abstract class HttpController<T> {
         serverMethod(action.path, method);
     }
 
-    private handleAuthenticatedRequest(action: HttpAction, httpServer: HttpServer, request: Request, response: Response): void {
+    protected handleAuthenticatedRequest(action: HttpAction, httpServer: HttpServer, request: Request, response: Response): void {
         this.handleRequest(httpServer, response, () => {
             if (httpServer.isAuthenticated({
                 request,
@@ -60,13 +50,13 @@ export abstract class HttpController<T> {
         });
     }
 
-    private handleUnauthenticatedRequest(action: HttpAction, httpServer: HttpServer, request: Request, response: Response): void {
+    protected handleUnauthenticatedRequest(action: HttpAction, httpServer: HttpServer, request: Request, response: Response): void {
         this.handleRequest(httpServer, response, () => {
             return this[action.method](request, response);
         });
     }
 
-    private async handleRequest(httpServer: HttpServer, response: Response, requestFn: () => any): Promise<void> {
+    protected async handleRequest(httpServer: HttpServer, response: Response, requestFn: () => any): Promise<void> {
         let httpResponse: HttpResponse;
 
         try {
@@ -90,7 +80,7 @@ export abstract class HttpController<T> {
         }
     }
 
-    private handleRequestError(httpServer: HttpServer, error: Error): HttpResponse {
+    protected handleRequestError(httpServer: HttpServer, error: Error): HttpResponse {
         httpServer.getLogger().error(error.name);
 
         if (!(error instanceof HttpError)) {

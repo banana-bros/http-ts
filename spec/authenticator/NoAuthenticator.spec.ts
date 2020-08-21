@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { NoAuthenticator, Repository } from '../../src';
+import { NoAuthenticator } from '../../src';
 
 interface User {
     id?: number;

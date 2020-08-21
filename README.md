@@ -15,7 +15,7 @@ Status](https://travis-ci.org/alkocats/http-ts.svg?branch=master)](https://travi
   - [Example](#example)
   - [Basic JWT / bcrypt Authentication](#basic-jwt--bcrypt-authentication)
 - [API](#api)
-  - [Supported HTTP methods](#supported-http-methods)
+  - [Supported HTTP Methods](#supported-http-methods)
 - [Contributing](#contributing)
 
 ## Installation
@@ -31,7 +31,7 @@ npm install @alkocats/http-ts
 All relevant imports for a minimal setup:
 
 ``` typescript
-import { Repository, Controller, HTTPGet, HTTPServer, HTTPForbiddenError, HTTP_STATUS } from '@alkocats/http-ts';
+import { Repository, Controller, HttpGet, HttpServer, HttpForbiddenError, Http_STATUS } from '@alkocats/http-ts';
 import { Request, Response } from 'express';
 ```
 
@@ -61,7 +61,7 @@ class UserController extends Controller<UserRepository> {
     /**
      * Define a GET-method for the url /users.
      */
-    @HTTPGet('/users')
+    @HttpGet('/users')
     public getUsers(): User[] {
         return this.repository.getData();
     }
@@ -69,7 +69,7 @@ class UserController extends Controller<UserRepository> {
     /**
      * Define a asynchronous GET-method for the url /async-users.
      */
-    @HTTPGet('/async-users')
+    @HttpGet('/async-users')
     public async getAsyncUsers(): Promise<User[]> {
         return await this.repository.getAsyncData();
     }
@@ -77,20 +77,20 @@ class UserController extends Controller<UserRepository> {
     /**
      * Define a asynchronous GET-method for the url /async-users-with-http-response and a custom http code
      */
-    @HTTPGet ('/async-users-with-http-response')
-    public async getAsyncUsersWithHTTPResponse(): Promise<HTTPResponse> {
+    @HttpGet ('/async-users-with-http-response')
+    public async getAsyncUsersWithHttpResponse(): Promise<HttpResponse> {
         const data = await this.repository.getAsyncData();
 
-        return new HTTPResponse(data, HTTP_STATUS.CODE_202_ACCEPTED);
+        return new HttpResponse(data, Http_STATUS.CODE_202_ACCEPTED);
     }
 
     /**
      * Define a GET-method for the url /faulty-users which throws a HTTP error.
      * None HTTP errors are automatically transformed to HTTP 500 error.
      */
-    @HTTPGet('/faulty-method')
-    public faultyMethod(): HTTPResponse {
-        throw new HTTPForbiddenError();
+    @HttpGet('/faulty-method')
+    public faultyMethod(): HttpResponse {
+        throw new HttpForbiddenError();
 
         return null;
     }
@@ -106,7 +106,7 @@ const userRepository = new UserRepository([{
 }]);
 const userController = new UserController(userRepository);
 
-const httpServer = new HTTPServer();
+const httpServer = new HttpServer();
 httpServer.registerController(userController);
 httpServer.start();
 ```
@@ -117,7 +117,7 @@ All relevant imports for a minimal setup:
 
 ``` typescript
 import * as bcrypt from 'bcrypt';
-import { JWTAuthenticator, Repository, HTTPServer, Controller, HTTPGet, Authenticated } from './authenticator';
+import { JwtAuthenticator, Repository, HttpServer, Controller, HttpGet, Authenticated } from './authenticator';
 ```
 
 The user interface for the user repository:
@@ -163,7 +163,7 @@ class DataController extends Controller<DataRepository> {
     /**
      * A unauthaenticated get method which can be called by everyone
      */
-    @HTTPGet('/data')
+    @HttpGet('/data')
     public getDataUnauthenticated() {
         return this.repository.getData();
     }
@@ -173,7 +173,7 @@ class DataController extends Controller<DataRepository> {
      * users who deliver a valid bearer token.
      */
     @Authenticated()
-    @HTTPGet('/data-authenticated')
+    @HttpGet('/data-authenticated')
     public getDataAuthenticated(): Data[] {
         return this.repository.getSecretData();
     }
@@ -185,17 +185,19 @@ const dataController = new DataController(dataRepository);
 Bringing it all together:
 
 ``` typescript
+import { SimpleRepository } from '@alkocats/http-ts';
+
 async function main() {
     // To login with a valid password, the password needs to be hashed with bcrypt
     const hashedPassword = await bcrypt.hash('the-cake-is-a-lie', 10);
 
-    // This repository is used by the JWTAuthenticator and contains all valid logins.
-    const userRepository = new Repository<User[]>([{
+    // This repository is used by the JwtAuthenticator and contains all valid logins.
+    const userRepository = new SimpleRepository<User[]>([{
         email: 'alkocats.info@gmail.com',
         password: hashedPassword
     }]);
 
-    // The secret for JWTAuthenticator to use for encryption / decryption.
+    // The secret for JwtAuthenticator to use for encryption / decryption.
     const secret = 'some-secret';
 
     /**
@@ -204,7 +206,7 @@ async function main() {
      * The token then can be used to access @Authenticated methods of the
      * registered controllers.
      */
-    const authenticator = new JWTAuthenticator<User>('/auth', {
+    const authenticator = new JwtAuthenticator<User>('/auth', {
         // Defines the repository with all the valid logins
         repository: userRepository,
         // Defines, which field of the repository data is used for identification
@@ -217,7 +219,7 @@ async function main() {
         secret: secret
     });
 
-    const httpServer = new HTTPServer(80, authenticator);
+    const httpServer = new HttpServer(80, authenticator);
 
     httpServer.registerController(dataController);
     httpServer.start();
@@ -226,7 +228,7 @@ async function main() {
 main();
 ```
 
-After everything is implemented, a post to http://localhost/auth with the json data
+After everything is implemented, a post to <http://localhost/auth> with the json data
 
 ``` json
 {
@@ -241,23 +243,23 @@ Alternatively a custom Authenticater can be created by creating a class which ex
 
 ## API
 
-### Supported HTTP methods
+### Supported HTTP Methods
 
-`@HTTPGet(path: string)`
+`@HttpGet(path: string)`
 
-`@HTTPPut(path: string)`
+`@HttpPut(path: string)`
 
-`@HTTPPost(path: string)`
+`@HttpPost(path: string)`
 
-`@HTTPDelete(path: string)`
+`@HttpDelete(path: string)`
 
-`@HTTPPatch(path: string)`
+`@HttpPatch(path: string)`
 
-`@HTTPHead(path: string)`
+`@HttpHead(path: string)`
 
-`@HTTPTrace(path: string)`
+`@HttpTrace(path: string)`
 
-`@HTTPConnect(path: string)`
+`@HttpConnect(path: string)`
 
 ## Contributing
 

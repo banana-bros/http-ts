@@ -1,7 +1,7 @@
-import { Repository } from '../repository/Repository';
+import { SimpleRepository } from 'src/repository';
 
 export interface JwtAuthenticatorOptions<T> {
-    repository: Repository<T[]>;
+    repository: SimpleRepository<T[]>;
     identificationKey: keyof T;
     passwordKey: keyof T;
     secret: string;

@@ -2,14 +2,15 @@ import { Server } from '../server/Server';
 import { Request, Response, RequestHandler } from 'express';
 import { HttpResponse } from './helper/HttpResponse';
 import { Action } from 'src/controller/helper/Action';
+import { Repository } from 'src/repository';
 
-export abstract class Controller<T extends Server<any>, A extends Action> {
+export abstract class Controller<R extends Repository, T extends Server<any>, A extends Action> {
     public actions: A[];
     public authenticatedActions: Set<string>;
 
-    protected repository: T;
+    protected repository: R;
 
-    constructor(repository: T) {
+    constructor(repository: R) {
         this.repository = repository;
         if (!this.actions) {
             this.actions = [];

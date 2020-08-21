@@ -1,11 +1,3 @@
-export class Repository<T> {
-    protected data: T;
+export class Repository {
 
-    constructor(data: T) {
-        this.data = data;
-    }
-
-    getData() {
-        return this.data;
-    }
 }
