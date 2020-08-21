@@ -5,7 +5,7 @@ import { Server } from '../server/Server';
 export abstract class Authenticator {
     protected path: string;
 
-    constructor(path?: string) {
+    constructor(path: string = '') {
         this.path = path;
     }
 
