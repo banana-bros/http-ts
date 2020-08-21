@@ -1,5 +1,4 @@
 import { Authenticator } from './Authenticator';
-import { HttpResponse } from '../controller/helper/HttpResponse';
 import { Server } from '../server/Server';
 
 export class NoAuthenticator extends Authenticator<null, null> {
