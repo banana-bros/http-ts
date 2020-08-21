@@ -5,7 +5,7 @@ import { HttpInternalServerError } from '../error/http-error/HttpInternalServerE
 import { HttpResponse } from './helper/HttpResponse';
 import { HttpServer } from 'src/http';
 import { Controller } from './Controller';
-import { UnauthorizedError } from "../error/UnauthorizedError";
+import { UnauthorizedError } from '../error/UnauthorizedError';
 import { Repository } from 'src/repository';
 import { HttpRequestOptions } from '../authenticator';
 import { HttpUnauthorizedError } from '../error';
