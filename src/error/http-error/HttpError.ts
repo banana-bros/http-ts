@@ -1,11 +1,11 @@
-export abstract class HttpError implements Error {
+export abstract class HttpError extends Error {
     public code: number;
-    public name: string;
-    public message: string;
 
     constructor(code: number, name: string, message: string) {
+        super(message);
         this.code = code;
         this.name = name;
-        this.message = message;
+
+        Object.setPrototypeOf(this, HttpError.prototype);
     }
 }

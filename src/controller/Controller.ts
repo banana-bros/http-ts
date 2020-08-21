@@ -3,8 +3,7 @@ import { HttpResponse } from './helper/HttpResponse';
 import { Action } from 'src/controller/helper/Action';
 import { Repository } from 'src/repository';
 import { ServerResponse } from './helper/ServerResponse';
-
-export class UnauthorizedError extends Error { }
+import { UnauthorizedError } from '../error/UnauthorizedError';
 
 export abstract class Controller<R extends Repository, S extends Server<any>, A extends Action, O> {
     public actions: A[];
@@ -22,7 +21,7 @@ export abstract class Controller<R extends Repository, S extends Server<any>, A 
         }
     }
 
-    protected abstract assingActionHandler(action: A, server: S, handler: (options: O) => void): void;
+    protected abstract assignActionHandler(action: A, server: S, handler: (options: O) => void): void;
     protected abstract async getResponse(result: any): Promise<ServerResponse<any>>;
     protected abstract handleRequestError(server: S, error: Error, options: O): HttpResponse;
 
@@ -32,18 +31,20 @@ export abstract class Controller<R extends Repository, S extends Server<any>, A 
         }
     }
 
-    protected getActionHandler(action: A, httpServer: S): void {
-        let method: (options: O) => void;
+    protected getActionHandler(action: A, server: S): void {
+        let actionHandler: (options: O) => void;
 
         if (this.authenticatedActions.has(action.method)) {
-            method = (options: O) => {
-                this.handleAuthenticatedRequest(action, httpServer, options);
+            actionHandler = (options: O) => {
+                this.handleAuthenticatedRequest(action, server, options);
             };
         } else {
-            method = (options: O) => {
-                this.handleUnauthenticatedRequest(action, httpServer, options);
+            actionHandler = (options: O) => {
+                this.handleUnauthenticatedRequest(action, server, options);
             };
         }
+
+        this.assignActionHandler(action, server, actionHandler);
     }
 
     protected handleAuthenticatedRequest(action: A, server: S, options: O): void {
@@ -51,7 +52,7 @@ export abstract class Controller<R extends Repository, S extends Server<any>, A 
             if (server.isAuthenticated(options)) {
                 return this[action.method](options);
             } else {
-                throw new UnauthorizedError();
+                throw new UnauthorizedError('');
             }
         });
     }
@@ -66,7 +67,8 @@ export abstract class Controller<R extends Repository, S extends Server<any>, A 
         let response: ServerResponse<any>;
 
         try {
-            this.getResponse(requestFn());
+            const result = requestFn();
+            response = await this.getResponse(result);
         } catch (error) {
             response = this.handleRequestError(server, error, options);
         } finally {

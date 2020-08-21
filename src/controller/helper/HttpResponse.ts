@@ -1,7 +1,6 @@
 import { HTTP_STATUS } from '../../enum';
-import { Response } from 'express';
 import { ServerResponse } from './ServerResponse';
-import { HttpRequestOptions } from 'src/authenticator';
+import { HttpRequestOptions } from '../../authenticator';
 
 export class HttpResponse extends ServerResponse<HttpRequestOptions> {
     public content: {};
@@ -17,7 +16,7 @@ export class HttpResponse extends ServerResponse<HttpRequestOptions> {
         options.response.status(this.code);
 
         if (this.content == null) {
-            // response.send();
+            options.response.send();
         } else {
             options.response.json(this.content);
         }

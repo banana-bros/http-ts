@@ -5,11 +5,13 @@ import { HttpInternalServerError } from '../error/http-error/HttpInternalServerE
 import { HttpResponse } from './helper/HttpResponse';
 import { HttpServer } from 'src/http';
 import { Controller } from './Controller';
+import { UnauthorizedError } from "../error/UnauthorizedError";
 import { Repository } from 'src/repository';
-import { HttpRequestOptions } from 'src/authenticator';
+import { HttpRequestOptions } from '../authenticator';
+import { HttpUnauthorizedError } from '../error';
 
 export abstract class HttpController<R extends Repository> extends Controller<R, HttpServer, HttpAction, HttpRequestOptions> {
-    protected assingActionHandler(action: HttpAction, server: HttpServer, handler: (options: HttpRequestOptions) => void): void {
+    protected assignActionHandler(action: HttpAction, server: HttpServer, handler: (options: HttpRequestOptions) => void): void {
         action.getServerMethod(server)(action.path, (request: Request, response: Response) => handler({ request, response }));
     }
 
@@ -30,9 +32,13 @@ export abstract class HttpController<R extends Repository> extends Controller<R,
     }
 
     protected handleRequestError(httpServer: HttpServer, error: Error, options: HttpRequestOptions): HttpResponse {
-        httpServer.getLogger().error(error.name);
+        if (error instanceof UnauthorizedError) {
+            error = new HttpUnauthorizedError();
+        }
 
-        if (!(error instanceof HttpError)) {
+        if (error instanceof HttpError) {
+            httpServer.getLogger().error(error.name);
+        } else {
             httpServer.getLogger().error(error.stack);
             const stack = error.stack;
             error = new HttpInternalServerError();
