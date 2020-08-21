@@ -13,7 +13,7 @@ export abstract class SecureServer<T> extends Server<T> {
     constructor(certificate: Certificate,
         key: Key,
         port: number,
-        authenticator: Authenticator = new NoAuthenticator(),
+        authenticator: Authenticator<any, any> = new NoAuthenticator(),
         logger?: winston.Logger) {
 
         super(port, authenticator, logger);

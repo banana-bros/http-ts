@@ -1,11 +1,11 @@
 import { expect } from 'chai';
-import { HTTPResponse } from '../../../src';
+import { HttpResponse } from '../../../src';
 
-describe('HTTPResponse', () => {
-    let httpResponse: HTTPResponse;
+describe('HttpResponse', () => {
+    let httpResponse: HttpResponse;
 
     beforeEach(() => {
-        httpResponse = new HTTPResponse(null, null);
+        httpResponse = new HttpResponse(null, null);
     });
 
     it('should be created', () => {

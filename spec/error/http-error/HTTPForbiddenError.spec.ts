@@ -1,11 +1,11 @@
 import { expect } from 'chai';
-import { HTTPForbiddenError } from '../../../src';
+import { HttpForbiddenError } from '../../../src';
 
-describe('HTTPForbiddenError', () => {
-    let httpForbiddenError: HTTPForbiddenError;
+describe('HttpForbiddenError', () => {
+    let httpForbiddenError: HttpForbiddenError;
 
     beforeEach(() => {
-        httpForbiddenError = new HTTPForbiddenError(null);
+        httpForbiddenError = new HttpForbiddenError(null);
     });
 
     it('should be created', () => {

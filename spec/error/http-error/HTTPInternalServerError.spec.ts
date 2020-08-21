@@ -1,11 +1,11 @@
 import { expect } from 'chai';
-import { HTTPInternalServerError } from '../../../src';
+import { HttpInternalServerError } from '../../../src';
 
-describe('HTTPInternalServerError', () => {
-    let httpInternalServerError: HTTPInternalServerError;
+describe('HttpInternalServerError', () => {
+    let httpInternalServerError: HttpInternalServerError;
 
     beforeEach(() => {
-        httpInternalServerError = new HTTPInternalServerError(null);
+        httpInternalServerError = new HttpInternalServerError(null);
     });
 
     it('should be created', () => {

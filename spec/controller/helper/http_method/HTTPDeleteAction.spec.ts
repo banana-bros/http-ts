@@ -1,11 +1,11 @@
 import { expect } from 'chai';
-import { HTTPDeleteAction } from '../../../../src';
+import { HttpDeleteAction } from '../../../../src';
 
-describe('HTTPDeleteAction', () => {
-    let httpDeleteAction: HTTPDeleteAction;
+describe('HttpDeleteAction', () => {
+    let httpDeleteAction: HttpDeleteAction;
 
     beforeEach(() => {
-        httpDeleteAction = new HTTPDeleteAction(null, null);
+        httpDeleteAction = new HttpDeleteAction(null, null);
     });
 
     it('should be created', () => {

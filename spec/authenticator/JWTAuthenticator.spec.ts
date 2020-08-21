@@ -1,16 +1,16 @@
 import { expect } from 'chai';
-import { JWTAuthenticator, Repository } from '../../src';
+import { JwtAuthenticator, Repository } from '../../src';
 
 interface User {
     id?: number;
     password?: string;
 }
 
-describe('JWTAuthenticator', () => {
-    let jwtAuthenticator: JWTAuthenticator<User>;
+describe('JwtAuthenticator', () => {
+    let jwtAuthenticator: JwtAuthenticator<User>;
 
     beforeEach(() => {
-        jwtAuthenticator = new JWTAuthenticator('/authenticate', {
+        jwtAuthenticator = new JwtAuthenticator('/authenticate', {
             identificationKey: 'id',
             passwordKey: 'password',
             repository: new Repository<User[]>([]),

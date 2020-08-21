@@ -1,11 +1,11 @@
 import { expect } from 'chai';
-import { HTTPHeadAction } from '../../../../src';
+import { HttpHeadAction } from '../../../../src';
 
-describe('HTTPHeadAction', () => {
-    let httpHeadAction: HTTPHeadAction;
+describe('HttpHeadAction', () => {
+    let httpHeadAction: HttpHeadAction;
 
     beforeEach(() => {
-        httpHeadAction = new HTTPHeadAction(null, null);
+        httpHeadAction = new HttpHeadAction(null, null);
     });
 
     it('should be created', () => {

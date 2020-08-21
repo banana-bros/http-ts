@@ -1,6 +1,6 @@
-import { HTTPConnectAction } from '../../helper/http_method/HTTPConnectAction';
+import { HttpConnectAction } from '../../helper/http_method/HttpConnectAction';
 import { assign } from './assign';
 
-export function HTTPConnect(path: string): Function {
-    return assign(path, HTTPConnectAction);
+export function HttpConnect(path: string): Function {
+    return assign(path, HttpConnectAction);
 }

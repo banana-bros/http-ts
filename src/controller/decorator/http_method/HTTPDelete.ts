@@ -1,6 +1,6 @@
-import { HTTPDeleteAction } from '../../helper/http_method/HTTPDeleteAction';
+import { HttpDeleteAction } from '../../helper/http_method/HttpDeleteAction';
 import { assign } from './assign';
 
-export function HTTPDelete(path: string): Function {
-    return assign(path, HTTPDeleteAction);
+export function HttpDelete(path: string): Function {
+    return assign(path, HttpDeleteAction);
 }

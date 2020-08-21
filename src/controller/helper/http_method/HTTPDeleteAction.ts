@@ -1,6 +1,6 @@
-import { HTTPAction } from './HTTPAction';
+import { HttpAction } from './HttpAction';
 
-export class HTTPDeleteAction extends HTTPAction {
+export class HttpDeleteAction extends HttpAction {
     getMethodName(): string {
         return 'delete';
     }

@@ -1,18 +1,17 @@
 import { Authenticator } from './Authenticator';
-import { HTTPResponse } from '../controller/helper/HTTPResponse';
-import { Request, Response } from 'express';
+import { HttpResponse } from '../controller/helper/HttpResponse';
 import { Server } from '../server/Server';
 
-export class NoAuthenticator extends Authenticator {
-    public isAuthenticated(request: Request, response: Response): boolean {
+export class NoAuthenticator extends Authenticator<null, null> {
+    public isAuthenticated(): boolean {
         return true;
     }
 
-    public authenticate(request: Request, response: Response): HTTPResponse {
-        return new HTTPResponse();
+    public authenticate(): null {
+        return;
     }
 
-    public unauthenticate(request: Request, response: Response): void {
+    public unauthenticate(): void {
 
     }
 

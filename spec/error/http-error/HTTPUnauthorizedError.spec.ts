@@ -1,11 +1,11 @@
 import { expect } from 'chai';
-import { HTTPUnauthorizedError } from '../../../src';
+import { HttpUnauthorizedError } from '../../../src';
 
-describe('HTTPUnauthorizedError', () => {
-    let httpUnauthorizedError: HTTPUnauthorizedError;
+describe('HttpUnauthorizedError', () => {
+    let httpUnauthorizedError: HttpUnauthorizedError;
 
     beforeEach(() => {
-        httpUnauthorizedError = new HTTPUnauthorizedError(null);
+        httpUnauthorizedError = new HttpUnauthorizedError(null);
     });
 
     it('should be created', () => {

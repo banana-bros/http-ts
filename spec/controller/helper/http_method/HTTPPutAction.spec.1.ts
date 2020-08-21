@@ -1,11 +1,11 @@
 import { expect } from 'chai';
-import { HTTPPatchAction } from '../../../../src';
+import { HttpPatchAction } from '../../../../src';
 
-describe('HTTPPatchAction', () => {
-    let httpPutAction: HTTPPatchAction;
+describe('HttpPatchAction', () => {
+    let httpPutAction: HttpPatchAction;
 
     beforeEach(() => {
-        httpPutAction = new HTTPPatchAction(null, null);
+        httpPutAction = new HttpPatchAction(null, null);
     });
 
     it('should be created', () => {

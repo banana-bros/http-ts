@@ -1,24 +1,24 @@
 import { expect } from 'chai';
-import { Authenticator } from '../../src';
-import { HTTPResponse } from '../../src/controller/helper/HTTPResponse';
-import { Request, Response } from 'express';
+import { Authenticator, Server } from '../../src';
 
-class MockAuthenticator extends Authenticator {
-    public isAuthenticated(request: Request, response: Response): boolean {
+class MockAuthenticator extends Authenticator<null, null> {
+    public isAuthenticated(): boolean {
         return true;
     }
 
-    public authenticate(request: Request, response: Response): HTTPResponse {
-        return new HTTPResponse();
+    public authenticate(): null {
+        return;
     }
 
-    public unauthenticate(request: Request, response: Response): void {
+    public unauthenticate(): void {
 
     }
+
+    public registerServer(server: Server<any>): void {}
 }
 
 describe('Authenticator', () => {
-    let authenticator: Authenticator;
+    let authenticator: Authenticator<any, any>;
 
     beforeEach(() => {
         authenticator = new MockAuthenticator();

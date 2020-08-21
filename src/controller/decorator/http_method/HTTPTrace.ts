@@ -1,6 +1,6 @@
-import { HTTPTraceAction } from '../../helper/http_method/HTTPTraceAction';
+import { HttpTraceAction } from '../../helper/http_method/HttpTraceAction';
 import { assign } from './assign';
 
-export function HTTPTrace(path: string): Function {
-    return assign(path, HTTPTraceAction);
+export function HttpTrace(path: string): Function {
+    return assign(path, HttpTraceAction);
 }

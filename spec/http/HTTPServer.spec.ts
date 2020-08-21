@@ -1,11 +1,11 @@
 import { expect } from 'chai';
-import { HTTPServer } from '../../src';
+import { HttpServer } from '../../src';
 
-describe('HTTPServer', () => {
-    let httpServer: HTTPServer;
+describe('HttpServer', () => {
+    let httpServer: HttpServer;
 
     beforeEach(() => {
-        httpServer = new HTTPServer(110);
+        httpServer = new HttpServer(110);
     });
 
     it('should be created', () => {

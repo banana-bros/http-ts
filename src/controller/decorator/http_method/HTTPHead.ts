@@ -1,6 +1,6 @@
-import { HTTPHeadAction } from '../../helper/http_method/HTTPHeadAction';
+import { HttpHeadAction } from '../../helper/http_method/HttpHeadAction';
 import { assign } from './assign';
 
-export function HTTPHead(path: string): Function {
-    return assign(path, HTTPHeadAction);
+export function HttpHead(path: string): Function {
+    return assign(path, HttpHeadAction);
 }

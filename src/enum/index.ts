@@ -1,2 +1,2 @@
-export * from './HTTPMethod';
+export * from './HttpMethod';
 export * from './HTTP_STATUS';

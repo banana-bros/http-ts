@@ -1,6 +1,6 @@
-import { HTTPAction } from './HTTPAction';
+import { HttpAction } from './HttpAction';
 
-export class HTTPPatchAction extends HTTPAction {
+export class HttpPatchAction extends HttpAction {
     getMethodName(): string {
         return 'patch';
     }

@@ -1,21 +1,21 @@
 import { expect } from 'chai';
-import { HTTPConnect } from '../../../../src';
+import { HttpConnect } from '../../../../src';
 
-class MockHTTPMethod {
-    @HTTPConnect('some/path')
+class MockHttpMethod {
+    @HttpConnect('some/path')
     public test() {
 
     }
 }
 
-describe('HTTPConnect', () => {
-    let mockHTTPMethod: MockHTTPMethod;
+describe('HttpConnect', () => {
+    let mockHttpMethod: MockHttpMethod;
 
     beforeEach(() => {
-        mockHTTPMethod = new MockHTTPMethod();
+        mockHttpMethod = new MockHttpMethod();
     });
 
     it('should be created', () => {
-        expect(mockHTTPMethod).to.be.ok;
+        expect(mockHttpMethod).to.be.ok;
     });
 });

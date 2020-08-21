@@ -8,7 +8,7 @@ class MockAuthenticated {
     }
 }
 
-describe('HTTPConnect', () => {
+describe('HttpConnect', () => {
     let authenticated: MockAuthenticated;
 
     beforeEach(() => {

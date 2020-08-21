@@ -1,7 +1,7 @@
 import { HTTP_STATUS } from '../../enum';
 import { Response } from 'express';
 
-export class HTTPResponse {
+export class HttpResponse {
     public content: {};
     public code: HTTP_STATUS;
 

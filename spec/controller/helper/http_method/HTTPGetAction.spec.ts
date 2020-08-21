@@ -1,11 +1,11 @@
 import { expect } from 'chai';
-import { HTTPGetAction } from '../../../../src';
+import { HttpGetAction } from '../../../../src';
 
-describe('HTTPGetAction', () => {
-    let httpGetAction: HTTPGetAction;
+describe('HttpGetAction', () => {
+    let httpGetAction: HttpGetAction;
 
     beforeEach(() => {
-        httpGetAction = new HTTPGetAction(null, null);
+        httpGetAction = new HttpGetAction(null, null);
     });
 
     it('should be created', () => {

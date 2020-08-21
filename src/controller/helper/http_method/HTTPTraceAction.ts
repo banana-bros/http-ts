@@ -1,6 +1,6 @@
-import { HTTPAction } from './HTTPAction';
+import { HttpAction } from './HttpAction';
 
-export class HTTPTraceAction extends HTTPAction {
+export class HttpTraceAction extends HttpAction {
     getMethodName(): string {
         return 'trace';
     }

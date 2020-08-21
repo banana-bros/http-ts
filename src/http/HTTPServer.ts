@@ -1,16 +1,26 @@
 import * as http from 'http';
 import { Server } from '../server/Server';
-import { Authenticator, NoAuthenticator } from '../authenticator';
+import { NoAuthenticator } from '../authenticator';
 import winston = require('winston');
+import * as bodyParser from 'body-parser';
+import * as express from 'express';
+import { Express, Request, Response, NextFunction } from 'express';
+import { HttpAuthenticator } from 'src/authenticator/HttpAuthenticator';
 
-export class HTTPServer extends Server<http.Server> {
+export class HttpServer extends Server<http.Server> {
+    protected express: Express;
+
     constructor(port: number = 80,
-        authenticator: Authenticator = new NoAuthenticator(),
+        authenticator: HttpAuthenticator = new NoAuthenticator(),
         logger?: winston.Logger) {
         super(port, authenticator, logger);
     }
 
     protected createServer() {
+        this.express = express();
+        this.express.use(bodyParser.json());
+        this.express.use(bodyParser.urlencoded({ extended: true }));
+
         this.server = http.createServer(this.express);
 
         this.server.on('close', () => this.closed.next());
@@ -19,6 +29,21 @@ export class HTTPServer extends Server<http.Server> {
         this.server.on('listening', () => this.listening.next());
 
         this.logger.info(`${this.constructor.name}: Server created`);
+
+        this.express.use((request: Request, response: Response, next: NextFunction) => {
+            this.logger.debug(`Request: ${request.method} ${request.url}`);
+            next();
+        });
+    }
+
+    public setPermanentHeaders(headers: Map<string, string>): void {
+        this.express.use((request: Request, response: Response, next: NextFunction) => {
+            for (const key in headers.keys()) {
+                response.header(key, headers.get(key));    
+            }
+            
+            next();
+        });
     }
 
     public start(): void {
@@ -27,5 +52,9 @@ export class HTTPServer extends Server<http.Server> {
 
     public stop(): void {
         this.server.close();
+    }
+
+    public getExpress(): Express {
+        return this.express;
     }
 }

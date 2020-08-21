@@ -1,2 +1,2 @@
-export * from './HTTPServer';
-export * from './HTTPSServer';
+export * from './HttpServer';
+export * from './HttpsServer';

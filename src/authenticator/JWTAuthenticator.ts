@@ -1,11 +1,11 @@
-import { Authenticator } from './Authenticator';
 import * as jwt from 'jsonwebtoken';
 import { Request, Response } from 'express';
 import * as bcrypt from 'bcrypt';
 import { Repository } from '../repository/Repository';
-import { HTTPResponse } from '../controller/helper/HTTPResponse';
+import { HttpResponse } from '../controller/helper/HttpResponse';
+import { HttpAuthenticator, HttpAuthenticationOptions } from './HttpAuthenticator';
 
-export interface JWTAuthenticatorOptions<T> {
+export interface JwtAuthenticatorOptions<T> {
     repository: Repository<T[]>;
     identificationKey: keyof T;
     passwordKey: keyof T;
@@ -13,17 +13,17 @@ export interface JWTAuthenticatorOptions<T> {
     expiresIn: number;
 }
 
-export class JWTAuthenticator<T> extends Authenticator {
-    private options: JWTAuthenticatorOptions<T>;
+export class JwtAuthenticator<T> extends HttpAuthenticator {
+    private options: JwtAuthenticatorOptions<T>;
 
-    constructor(path: string, options: JWTAuthenticatorOptions<T>) {
+    constructor(path: string, options: JwtAuthenticatorOptions<T>) {
         super(path);
 
         this.options = options;
     }
 
-    public isAuthenticated(request: Request, response: Response): boolean {
-        const authorizationHeader = request.headers['authorization'] as string;
+    public isAuthenticated(options: HttpAuthenticationOptions): boolean {
+        const authorizationHeader = options.request.headers['authorization'] as string;
         let isAuthenticated = false;
 
         if (authorizationHeader) {
@@ -51,17 +51,17 @@ export class JWTAuthenticator<T> extends Authenticator {
         }
     }
 
-    public authenticate(request: Request, response: Response): HTTPResponse {
-        const loginToken = this.getLoginToken(request, response);
+    public authenticate(options: HttpAuthenticationOptions): HttpResponse {
+        const loginToken = this.getLoginToken(options.request, options.response);
         const result = {
             auth: (loginToken != null),
             token: loginToken
         };
 
         if (result.auth) {
-            return new HTTPResponse(result);
+            return new HttpResponse(result);
         } else {
-            return new HTTPResponse(result, 401);
+            return new HttpResponse(result, 401);
         }
     }
 
@@ -87,7 +87,7 @@ export class JWTAuthenticator<T> extends Authenticator {
         return token;
     }
 
-    public unauthenticate(request: Request, response: Response): void {
+    public unauthenticate(options: HttpAuthenticationOptions): void {
 
     }
 }

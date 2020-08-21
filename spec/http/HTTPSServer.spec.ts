@@ -1,11 +1,11 @@
 import { expect } from 'chai';
-import { HTTPSServer } from '../../src';
+import { HttpsServer } from '../../src';
 
-describe('HTTPSServer', () => {
-    let httpsServer: HTTPSServer;
+describe('HttpsServer', () => {
+    let httpsServer: HttpsServer;
 
     beforeEach(() => {
-        httpsServer = new HTTPSServer('certs/server.crt', 'certs/server.key', 110);
+        httpsServer = new HttpsServer('certs/server.crt', 'certs/server.key', 110);
     });
 
     it('should be created', () => {

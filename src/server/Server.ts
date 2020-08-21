@@ -1,9 +1,6 @@
 import { Subject } from 'rxjs';
 import { first } from 'rxjs/operators';
-import * as express from 'express';
-import { Express, Request, Response } from 'express';
 import { Controller } from '../controller/Controller';
-import * as bodyParser from 'body-parser';
 import { Authenticator, NoAuthenticator } from '../authenticator';
 import * as winston from 'winston';
 import { Logger, format, transports } from 'winston';
@@ -23,21 +20,16 @@ export abstract class Server<T> {
 
     protected port: number;
     protected logger: Logger;
-    protected authenticator: Authenticator;
-    protected express: Express;
+    protected authenticator: Authenticator<any, any>;
     protected server: T;
-    protected controllers: Controller<any>[] = [];
+    protected controllers: Controller<any, any>[] = [];
 
     private running = false;
 
-    constructor(port: number, authenticator: Authenticator = new NoAuthenticator(), logger: Logger = defaultLogger) {
+    constructor(port: number, authenticator: Authenticator<any, any> = new NoAuthenticator(), logger: Logger = defaultLogger) {
         this.port = port;
         this.authenticator = authenticator;
         this.logger = logger;
-
-        this.express = express();
-        this.express.use(bodyParser.json());
-        this.express.use(bodyParser.urlencoded({ extended: true }));
 
         this.error.subscribe((error: Error) => {
             this.logger.error(error);
@@ -69,11 +61,11 @@ export abstract class Server<T> {
         this.authenticator.registerServer(this);
     }
 
-    public isAuthenticated(request: Request, response: Response): boolean {
-        return this.authenticator.isAuthenticated(request, response);
+    public isAuthenticated(options): boolean {
+        return this.authenticator.isAuthenticated(options);
     }
 
-    public registerController(controller: Controller<any>): Server<T> {
+    public registerController(controller: Controller<any, any>): Server<T> {
         this.controllers.push(controller);
         controller.registerActions(this);
 
@@ -92,16 +84,12 @@ export abstract class Server<T> {
         this.port = port;
     }
 
-    public getAuthenticator(): Authenticator {
+    public getAuthenticator(): Authenticator<any, any> {
         return this.authenticator;
     }
 
-    public setAuthenticator(authenticator: Authenticator) {
+    public setAuthenticator(authenticator: Authenticator<any, any>) {
         this.authenticator = authenticator;
-    }
-
-    public getExpress(): Express {
-        return this.express;
     }
 
     public getServer(): T {

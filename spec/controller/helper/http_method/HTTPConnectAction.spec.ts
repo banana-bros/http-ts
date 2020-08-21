@@ -1,11 +1,11 @@
 import { expect } from 'chai';
-import { HTTPConnectAction } from '../../../../src';
+import { HttpConnectAction } from '../../../../src';
 
-describe('HTTPConnectAction', () => {
-    let httpConnectAction: HTTPConnectAction;
+describe('HttpConnectAction', () => {
+    let httpConnectAction: HttpConnectAction;
 
     beforeEach(() => {
-        httpConnectAction = new HTTPConnectAction(null, null);
+        httpConnectAction = new HttpConnectAction(null, null);
     });
 
     it('should be created', () => {

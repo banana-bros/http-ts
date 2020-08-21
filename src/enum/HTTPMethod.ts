@@ -1,4 +1,4 @@
-export enum HTTPMethod {
+export enum HttpMethod {
     GET = 1,
     HEAD,
     POST,

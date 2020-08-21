@@ -1,21 +1,21 @@
 import { expect } from 'chai';
-import { HTTPDelete } from '../../../../src';
+import { HttpDelete } from '../../../../src';
 
-class MockHTTPMethod {
-    @HTTPDelete('some/path')
+class MockHttpMethod {
+    @HttpDelete('some/path')
     public test() {
 
     }
 }
 
-describe('HTTPDelete', () => {
-    let mockHTTPMethod: MockHTTPMethod;
+describe('HttpDelete', () => {
+    let mockHttpMethod: MockHttpMethod;
 
     beforeEach(() => {
-        mockHTTPMethod = new MockHTTPMethod();
+        mockHttpMethod = new MockHttpMethod();
     });
 
     it('should be created', () => {
-        expect(mockHTTPMethod).to.be.ok;
+        expect(mockHttpMethod).to.be.ok;
     });
 });

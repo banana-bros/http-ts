@@ -1,6 +1,6 @@
-import { HTTPPatchAction } from '../../helper/http_method/HTTPPatchAction';
+import { HttpPatchAction } from '../../helper/http_method/HttpPatchAction';
 import { assign } from './assign';
 
-export function HTTPPatch(path: string): Function {
-    return assign(path, HTTPPatchAction);
+export function HttpPatch(path: string): Function {
+    return assign(path, HttpPatchAction);
 }

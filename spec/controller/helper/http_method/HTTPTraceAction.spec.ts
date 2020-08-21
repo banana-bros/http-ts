@@ -1,11 +1,11 @@
 import { expect } from 'chai';
-import { HTTPTraceAction } from '../../../../src';
+import { HttpTraceAction } from '../../../../src';
 
-describe('HTTPTraceAction', () => {
-    let httpTraceAction: HTTPTraceAction;
+describe('HttpTraceAction', () => {
+    let httpTraceAction: HttpTraceAction;
 
     beforeEach(() => {
-        httpTraceAction = new HTTPTraceAction(null, null);
+        httpTraceAction = new HttpTraceAction(null, null);
     });
 
     it('should be created', () => {

@@ -1,15 +1,15 @@
 import { expect } from 'chai';
-import { HTTPError } from '../../../src';
+import { HttpError } from '../../../src';
 
-class MockHTTPError extends HTTPError {
+class MockHttpError extends HttpError {
 
 }
 
-describe('HTTPError', () => {
-    let httpError: MockHTTPError;
+describe('HttpError', () => {
+    let httpError: MockHttpError;
 
     beforeEach(() => {
-        httpError = new MockHTTPError(null, null, null);
+        httpError = new MockHttpError(null, null, null);
     });
 
     it('should be created', () => {

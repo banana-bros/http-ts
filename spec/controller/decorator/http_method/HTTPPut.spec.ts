@@ -1,21 +1,21 @@
 import { expect } from 'chai';
-import { HTTPPut } from '../../../../src';
+import { HttpPut } from '../../../../src';
 
-class MockHTTPMethod {
-    @HTTPPut('some/path')
+class MockHttpMethod {
+    @HttpPut('some/path')
     public test() {
 
     }
 }
 
-describe('HTTPPut', () => {
-    let mockHTTPMethod: MockHTTPMethod;
+describe('HttpPut', () => {
+    let mockHttpMethod: MockHttpMethod;
 
     beforeEach(() => {
-        mockHTTPMethod = new MockHTTPMethod();
+        mockHttpMethod = new MockHttpMethod();
     });
 
     it('should be created', () => {
-        expect(mockHTTPMethod).to.be.ok;
+        expect(mockHttpMethod).to.be.ok;
     });
 });

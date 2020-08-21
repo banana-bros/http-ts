@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { AuthenticatedAction } from '../../../../src';
 
-describe('HTTPAction', () => {
+describe('HttpAction', () => {
     let authenticatedAction: AuthenticatedAction;
 
     beforeEach(() => {

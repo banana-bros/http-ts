@@ -1,11 +1,11 @@
 import { expect } from 'chai';
-import { HTTPPostAction } from '../../../../src';
+import { HttpPostAction } from '../../../../src';
 
-describe('HTTPPostAction', () => {
-    let httpPostAction: HTTPPostAction;
+describe('HttpPostAction', () => {
+    let httpPostAction: HttpPostAction;
 
     beforeEach(() => {
-        httpPostAction = new HTTPPostAction(null, null);
+        httpPostAction = new HttpPostAction(null, null);
     });
 
     it('should be created', () => {

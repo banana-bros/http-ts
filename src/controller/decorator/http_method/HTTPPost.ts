@@ -1,6 +1,6 @@
-import { HTTPPostAction } from '../../helper/http_method/HTTPPostAction';
+import { HttpPostAction } from '../../helper/http_method/HttpPostAction';
 import { assign } from './assign';
 
-export function HTTPPost(path: string): Function {
-    return assign(path, HTTPPostAction);
+export function HttpPost(path: string): Function {
+    return assign(path, HttpPostAction);
 }

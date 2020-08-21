@@ -1,4 +1,4 @@
-export abstract class HTTPError implements Error {
+export abstract class HttpError implements Error {
     public code: number;
     public name: string;
     public message: string;

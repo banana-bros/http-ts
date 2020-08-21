@@ -1,6 +1,6 @@
-import { HTTPGetAction } from '../../helper/http_method/HTTPGetAction';
+import { HttpGetAction } from '../../helper/http_method/HttpGetAction';
 import { assign } from './assign';
 
-export function HTTPGet(path: string): Function {
-    return assign(path, HTTPGetAction);
+export function HttpGet(path: string): Function {
+    return assign(path, HttpGetAction);
 }
