@@ -1,4 +1,4 @@
-import { SimpleRepository } from 'src/repository';
+import { SimpleRepository } from '../repository';
 
 export interface JwtAuthenticatorOptions<T> {
     repository: SimpleRepository<T[]>;

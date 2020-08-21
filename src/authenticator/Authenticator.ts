@@ -1,4 +1,4 @@
-import { Server } from 'src/server';
+import { Server } from '../server';
 
 export abstract class Authenticator<O, A> {
     protected path: string;

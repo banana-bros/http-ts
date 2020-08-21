@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express';
-import { HttpServer } from 'src/http';
+import { HttpServer } from '../../../http';
 import { Action } from '../Action';
 
 export abstract class HttpAction extends Action {

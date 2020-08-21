@@ -1,7 +1,7 @@
 import { Server } from '../server/Server';
 import { HttpResponse } from './helper/HttpResponse';
-import { Action } from 'src/controller/helper/Action';
-import { Repository } from 'src/repository';
+import { Action } from '../controller/helper/Action';
+import { Repository } from '../repository';
 import { ServerResponse } from './helper/ServerResponse';
 import { UnauthorizedError } from '../error/UnauthorizedError';
 

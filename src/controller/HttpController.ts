@@ -3,10 +3,10 @@ import { Request, Response } from 'express';
 import { HttpError } from '../error/http-error/HttpError';
 import { HttpInternalServerError } from '../error/http-error/HttpInternalServerError';
 import { HttpResponse } from './helper/HttpResponse';
-import { HttpServer } from 'src/http';
+import { HttpServer } from '../http';
 import { Controller } from './Controller';
 import { UnauthorizedError } from '../error/UnauthorizedError';
-import { Repository } from 'src/repository';
+import { Repository } from '../repository';
 import { HttpRequestOptions } from '../authenticator';
 import { HttpUnauthorizedError } from '../error';
 

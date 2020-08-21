@@ -1,7 +1,7 @@
 import { Authenticator } from './Authenticator';
-import { HttpServer } from 'src/http';
+import { HttpServer } from '../http';
 import { Request, Response } from 'express';
-import { HttpResponse } from 'src/controller';
+import { HttpResponse } from '../controller';
 
 export interface HttpRequestOptions {
     request: Request;
