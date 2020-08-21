@@ -5,7 +5,7 @@ describe('HttpUnauthorizedError', () => {
     let httpUnauthorizedError: HttpUnauthorizedError;
 
     beforeEach(() => {
-        httpUnauthorizedError = new HttpUnauthorizedError(null);
+        httpUnauthorizedError = new HttpUnauthorizedError();
     });
 
     it('should be created', () => {

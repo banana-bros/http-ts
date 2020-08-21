@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { Controller, HttpResponse } from '../../src';
 
 class MockController extends Controller<any, any, any, any> {
-    protected async assingActionHandler(action: any, server: any, handler: (options: any) => void): Promise<void> {
+    protected async assignActionHandler(action: any, server: any, handler: (options: any) => void): Promise<void> {
         return null;
     }
 
