@@ -2,13 +2,14 @@ import * as https from 'https';
 import { SecureServer } from '../server/SecureServer';
 import { Authenticator, NoAuthenticator } from '../authenticator';
 import * as winston from 'winston';
+import { KeyObject } from 'tls';
 
 export class HTTPSServer extends SecureServer<https.Server> {
     protected httpsServer: https.Server;
 
     constructor(port: number = 443,
         certificate: string | Buffer | (string | Buffer)[],
-        key: string | Buffer | (string | Buffer)[],
+        key: string | Buffer | (Buffer | KeyObject)[],
         authenticator: Authenticator = new NoAuthenticator(),
         logger?: winston.Logger) {
 

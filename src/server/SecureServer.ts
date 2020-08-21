@@ -1,6 +1,7 @@
 import { Server } from './Server';
 import { Authenticator, NoAuthenticator } from '../authenticator';
 import * as winston from 'winston';
+import { KeyObject } from 'tls';
 
 export abstract class SecureServer<T> extends Server<T> {
     protected _certificate: string | Buffer | (string | Buffer)[];
@@ -14,20 +15,20 @@ export abstract class SecureServer<T> extends Server<T> {
         this._certificate = certificate;
     }
 
-    protected _key: string | Buffer | (string | Buffer)[];
-    get key(): string | Buffer | (string | Buffer)[] {
+    protected _key: string | Buffer | (Buffer | KeyObject)[];
+    get key(): string | Buffer | (Buffer | KeyObject)[] {
         if (this._running) {
             throw Error('Unable to set port as server is still running');
         }
         return this._key;
     }
-    set key(key: string | Buffer | (string | Buffer)[]) {
+    set key(key: string | Buffer | (Buffer | KeyObject)[]) {
         this._key = key;
     }
 
     constructor(port: number,
         certificate: string | Buffer | (string | Buffer)[],
-        key: string | Buffer | (string | Buffer)[],
+        key: string | Buffer | (Buffer | KeyObject)[],
         authenticator: Authenticator = new NoAuthenticator(),
         logger?: winston.Logger) {
 
