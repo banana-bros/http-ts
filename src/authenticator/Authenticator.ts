@@ -1,5 +1,3 @@
-import { Response, Request } from 'express';
-import { HttpResponse } from '../controller/helper/HttpResponse';
 import { Server } from 'src/server';
 
 export abstract class Authenticator<O, A> {
