@@ -1,4 +1,4 @@
-import { Authenticator } from "./Authenticator";
+import { Authenticator } from './Authenticator';
 import { HttpServer } from 'src/http';
 import { Request, Response } from 'express';
 import { HttpResponse } from 'src/controller';
