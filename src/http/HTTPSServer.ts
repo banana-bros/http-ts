@@ -1,9 +1,8 @@
 import * as https from 'https';
 import { SecureServer } from '../server/SecureServer';
-import { NoAuthenticator } from '../authenticator';
+import { NoAuthenticator, HttpAuthenticator } from '../authenticator';
 import * as winston from 'winston';
 import { KeyObject } from 'tls';
-import { HttpAuthenticator } from 'src/authenticator/HttpAuthenticator';
 import * as bodyParser from 'body-parser';
 import * as express from 'express';
 import { Express, Request, Response, NextFunction } from 'express';

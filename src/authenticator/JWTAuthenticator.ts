@@ -2,8 +2,8 @@ import * as jwt from 'jsonwebtoken';
 import { Request, Response } from 'express';
 import * as bcrypt from 'bcrypt';
 import { HttpResponse } from '../controller/helper/HttpResponse';
-import { HttpAuthenticator, HttpAuthenticationOptions } from './HttpAuthenticator';
 import { JwtAuthenticatorOptions } from './JwtAuthenticatorOptions';
+import { HttpAuthenticator, HttpAuthenticationOptions } from './HttpAuthenticator';
 
 export class JwtAuthenticator<T> extends HttpAuthenticator {
     private options: JwtAuthenticatorOptions<T>;

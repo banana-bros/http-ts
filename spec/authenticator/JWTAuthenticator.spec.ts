@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { JwtAuthenticator, Repository } from '../../src';
+import { Repository, JwtAuthenticator } from '../../src';
 
 interface User {
     id?: number;

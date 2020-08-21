@@ -1,11 +1,10 @@
 import * as http from 'http';
 import { Server } from '../server/Server';
-import { NoAuthenticator } from '../authenticator';
+import { NoAuthenticator, HttpAuthenticator } from '../authenticator';
 import winston = require('winston');
 import * as bodyParser from 'body-parser';
 import * as express from 'express';
 import { Express, Request, Response, NextFunction } from 'express';
-import { HttpAuthenticator } from 'src/authenticator/HttpAuthenticator';
 
 export class HttpServer extends Server<http.Server> {
     protected express: Express;
