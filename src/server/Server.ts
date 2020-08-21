@@ -44,6 +44,10 @@ export abstract class Server<T> {
     public abstract stop(): void;
     protected abstract createServer(): void;
 
+    protected registerAuthorization(): void {
+        this.authenticator.registerServer(this);
+    }
+
     protected startListening(): void {
         this.listening.subscribe(() => this.running = true);
         this.closed.subscribe(() => this.running = false);
@@ -55,10 +59,6 @@ export abstract class Server<T> {
         this.closed.pipe(
             first()
         ).subscribe(_ => this.logger.info(`${this.constructor.name}: Server closed`));
-    }
-
-    protected registerAuthorization(): void {
-        this.authenticator.registerServer(this);
     }
 
     public isAuthenticated(options): boolean {
