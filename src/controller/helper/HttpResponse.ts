@@ -19,7 +19,7 @@ export class HttpResponse extends ServerResponse<HttpRequestOptions> {
         if (this.content == null) {
             options.response.send();
         } else if (this.content instanceof FileHandler) {
-            options.response.sendFile(this.content.path);
+            options.response.sendFile(this.content.path.toString());
         } else {
             options.response.json(this.content);
         }
