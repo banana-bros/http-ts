@@ -1,11 +1,11 @@
-import { promises as fs, PathLike } from 'fs'; 
+import { promises as fs, PathLike } from 'fs';
 import { FileHandle } from 'fs/promises';
 import { BaseEncodingOptions, Mode, OpenMode, Stats, WriteVResult, ReadVResult } from 'fs';
 
 export class FileHandler {
     private _path: PathLike;
     private fileHandle: FileHandle;
-    
+
     get fd(): number {
         return this.fileHandle.fd;
     }
@@ -23,7 +23,8 @@ export class FileHandler {
         this.fileHandle = fileHandle;
     }
 
-    public appendFile(data: string | Uint8Array, options?: BaseEncodingOptions & { mode?: Mode, flag?: OpenMode } | BufferEncoding | null): Promise<void> {
+    public appendFile(data: string | Uint8Array,
+        options?: BaseEncodingOptions & { mode?: Mode, flag?: OpenMode } | BufferEncoding | null): Promise<void> {
         return this.fileHandle.appendFile(data, options);
     }
 
@@ -43,7 +44,8 @@ export class FileHandler {
         return this.fileHandle.sync();
     }
 
-    public read<TBuffer extends Uint8Array>(buffer: TBuffer, offset?: number | null, length?: number | null, position?: number | null): Promise<{ bytesRead: number, buffer: TBuffer }> {
+    public read<TBuffer extends Uint8Array>(buffer: TBuffer, offset?: number | null,
+        length?: number | null, position?: number | null): Promise<{ bytesRead: number, buffer: TBuffer }> {
         return this.fileHandle.read(buffer, offset, length, position);
     }
 
@@ -65,11 +67,13 @@ export class FileHandler {
         return this.fileHandle.utimes(atime, mtime);
     }
 
-    public write(data: string | Uint8Array, position?: number | null, encoding?: BufferEncoding | null): Promise<{ bytesWritten: number, buffer: string }> {
+    public write(data: string | Uint8Array, position?: number | null,
+        encoding?: BufferEncoding | null): Promise<{ bytesWritten: number, buffer: string }> {
         return this.fileHandle.write(data, position, encoding);
     }
 
-    public writeFile(data: string | Uint8Array, options?: BaseEncodingOptions & { mode?: Mode, flag?: OpenMode } | BufferEncoding | null): Promise<void> {
+    public writeFile(data: string | Uint8Array,
+        options?: BaseEncodingOptions & { mode?: Mode, flag?: OpenMode } | BufferEncoding | null): Promise<void> {
         return this.fileHandle.writeFile(data, options);
     }
 
