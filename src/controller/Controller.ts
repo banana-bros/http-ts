@@ -22,7 +22,7 @@ export abstract class Controller<R extends Repository, S extends Server<any>, A 
     }
 
     protected abstract assignActionHandler(action: A, server: S, handler: (options: O) => void): void;
-    protected abstract async getResponse(result: any): Promise<ServerResponse<any>>;
+    protected abstract getResponse(result: any): Promise<ServerResponse<any>>;
     protected abstract handleRequestError(server: S, error: Error, options: O): HttpResponse;
 
     public registerActions(server: S) {

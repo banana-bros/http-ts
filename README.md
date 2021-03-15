@@ -31,8 +31,7 @@ npm install @alkocats/http-ts
 All relevant imports for a minimal setup:
 
 ``` typescript
-import { Repository, Controller, HttpGet, HttpServer, HttpForbiddenError, Http_STATUS } from '@alkocats/http-ts';
-import { Request, Response } from 'express';
+import { HttpGet, HttpServer, HttpForbiddenError, SimpleRepository, HttpController, HttpResponse, HTTP_STATUS } from '@alkocats/http-ts';
 ```
 
 The user interface for the user repository:
@@ -47,9 +46,16 @@ interface User {
 The user repository for the stored data the controller uses:
 
 ``` typescript
-class UserRepository extends Repository<User[]> {
+class UserRepository extends SimpleRepository<User[]> {
     public async getAsyncData(): Promise<User[]> {
         return this.data;
+    }
+
+    public async addUser(name: string, password: string): Promise<void> {
+        this.data.push({
+            name: name,
+            password: password
+        });
     }
 }
 ```
@@ -57,7 +63,7 @@ class UserRepository extends Repository<User[]> {
 The user controller, which handles the user requests, equipped with different GET-methods:
 
 ``` typescript
-class UserController extends Controller<UserRepository> {
+class UserController extends HttpController<UserRepository> {
     /**
      * Define a GET-method for the url /users.
      */
@@ -77,11 +83,24 @@ class UserController extends Controller<UserRepository> {
     /**
      * Define a asynchronous GET-method for the url /async-users-with-http-response and a custom http code
      */
-    @HttpGet ('/async-users-with-http-response')
+    @HttpGet('/async-users-with-http-response')
     public async getAsyncUsersWithHttpResponse(): Promise<HttpResponse> {
         const data = await this.repository.getAsyncData();
 
-        return new HttpResponse(data, Http_STATUS.CODE_202_ACCEPTED);
+        return new HttpResponse(data, HTTP_STATUS.CODE_202_ACCEPTED);
+    }
+
+    /**
+     * Define a asynchronous POST-method for the url /async-post-data which handles JSON bodies
+     */
+    @HttpPost('/post-data/:username')
+    public async postAsyncData(options: HttpRequestOptions): Promise<User[]> {
+        const name = options.request.params.username;
+        const password = options.request.body.password;
+    
+        this.repository.addUser(name, password);
+
+        return this.repository.getAsyncData();
     }
 
     /**
@@ -91,8 +110,6 @@ class UserController extends Controller<UserRepository> {
     @HttpGet('/faulty-method')
     public faultyMethod(): HttpResponse {
         throw new HttpForbiddenError();
-
-        return null;
     }
 }
 ```
@@ -117,7 +134,7 @@ All relevant imports for a minimal setup:
 
 ``` typescript
 import * as bcrypt from 'bcrypt';
-import { JwtAuthenticator, Repository, HttpServer, Controller, HttpGet, Authenticated } from './authenticator';
+import { Authenticated, HttpController, HttpGet, HttpServer, JwtAuthenticator, SimpleRepository } from '@alkocats/http-ts';
 ```
 
 The user interface for the user repository:
@@ -141,7 +158,7 @@ interface Data {
 The data repository for the stored data the controller uses:
 
 ``` typescript
-class DataRepository extends Repository<Data[]> {
+class DataRepository extends SimpleRepository<Data[]> {
     public getSecretData(): Data[] {
         return [{
             foo: 0,
@@ -159,7 +176,7 @@ const dataRepository = new DataRepository([{
 The data controller, which handles all data requests.
 
 ``` typescript
-class DataController extends Controller<DataRepository> {
+class DataController extends HttpController<DataRepository> {
     /**
      * A unauthaenticated get method which can be called by everyone
      */
@@ -185,8 +202,6 @@ const dataController = new DataController(dataRepository);
 Bringing it all together:
 
 ``` typescript
-import { SimpleRepository } from '@alkocats/http-ts';
-
 async function main() {
     // To login with a valid password, the password needs to be hashed with bcrypt
     const hashedPassword = await bcrypt.hash('the-cake-is-a-lie', 10);
@@ -228,7 +243,7 @@ async function main() {
 main();
 ```
 
-After everything is implemented, a post to <http://localhost/auth> with the json data
+After everything is implemented, a POST to <http://localhost/auth> with the JSON data
 
 ``` json
 {
